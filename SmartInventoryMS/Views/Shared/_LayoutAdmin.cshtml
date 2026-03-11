@@ -1,0 +1,622 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Smart Inventory System</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/SmartInventoryMS.styles.css" asp-append-version="true" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+    <link href="~/css/customstyle.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="brand-logo">
+                <i class="bi bi-boxes"></i>
+            </div>
+            <span class="brand-text">EasyShop</span>
+        </div>
+
+        <nav class="nav-menu">
+            <div class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="bi bi-grid-1x2-fill nav-icon"></i>
+                    <span>Dashboard</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="bi bi-people-fill nav-icon"></i>
+                    <span>Users</span>
+                    <span class="nav-badge">24</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="#" class="nav-link has-submenu" onclick="toggleSubmenu(event, 'orders-submenu')">
+                    <i class="bi bi-cart-fill nav-icon"></i>
+                    <span>Orders</span>
+                    <i class="bi bi-chevron-right submenu-arrow" id="orders-arrow"></i>
+                </a>
+                <div class="submenu" id="orders-submenu">
+                    <a href="#" class="submenu-link">
+                        <i class="bi bi-list-ul"></i>
+                        <span>All Orders</span>
+                    </a>
+                    <a href="#" class="submenu-link">
+                        <i class="bi bi-plus-circle"></i>
+                        <span>New Order</span>
+                    </a>
+                    <a href="#" class="submenu-link">
+                        <i class="bi bi-clock-history"></i>
+                        <span>Pending</span>
+                    </a>
+                    <a href="#" class="submenu-link">
+                        <i class="bi bi-check2-circle"></i>
+                        <span>Completed</span>
+                    </a>
+                </div>
+            </div>
+            <div class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="bi bi-graph-up-arrow nav-icon"></i>
+                    <span>Analytics</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="#" class="nav-link has-submenu" onclick="toggleSubmenu(event, 'revenue-submenu')">
+                    <i class="bi bi-wallet-fill nav-icon"></i>
+                    <span>Revenue</span>
+                    <i class="bi bi-chevron-right submenu-arrow" id="revenue-arrow"></i>
+                </a>
+                <div class="submenu" id="revenue-submenu">
+                    <a href="#" class="submenu-link">
+                        <i class="bi bi-graph-up"></i>
+                        <span>Overview</span>
+                    </a>
+                    <a href="#" class="submenu-link">
+                        <i class="bi bi-currency-dollar"></i>
+                        <span>Payments</span>
+                    </a>
+                    <a href="#" class="submenu-link">
+                        <i class="bi bi-receipt"></i>
+                        <span>Invoices</span>
+                    </a>
+                    <a href="#" class="submenu-link">
+                        <i class="bi bi-pie-chart"></i>
+                        <span>Reports</span>
+                    </a>
+                </div>
+            </div>
+            <div class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="bi bi-chat-dots-fill nav-icon"></i>
+                    <span>Messages</span>
+                    <span class="nav-badge">5</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="bi bi-folder-fill nav-icon"></i>
+                    <span>Projects</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="#" class="nav-link has-submenu" onclick="toggleSubmenu(event, 'settings-submenu')">
+                    <i class="bi bi-gear-fill nav-icon"></i>
+                    <span>Settings</span>
+                    <i class="bi bi-chevron-right submenu-arrow" id="settings-arrow"></i>
+                </a>
+                <div class="submenu" id="settings-submenu">
+                    <a href="#" class="submenu-link">
+                        <i class="bi bi-person-gear"></i>
+                        <span>Profile Settings</span>
+                    </a>
+                    <a href="#" class="submenu-link">
+                        <i class="bi bi-bell"></i>
+                        <span>Notifications</span>
+                    </a>
+                    <a href="#" class="submenu-link">
+                        <i class="bi bi-shield-lock"></i>
+                        <span>Security</span>
+                    </a>
+                    <a href="#" class="submenu-link">
+                        <i class="bi bi-palette"></i>
+                        <span>Appearance</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <header class="top-header">
+            <div class="header-left">
+                <button class="toggle-sidebar" onclick="toggleSidebar()">
+                    <i class="bi bi-list" id="toggle-icon"></i>
+                </button>
+                <div class="search-box">
+                    <i class="bi bi-search search-icon"></i>
+                    <input type="text" class="search-input" placeholder="Search anything...">
+                </div>
+            </div>
+
+            <div class="header-right">
+                <div class="notification-wrapper">
+                    <button class="notification-btn" onclick="toggleMail()">
+                        <i class="bi bi-envelope-fill"></i>
+                        <span class="notification-badge">5</span>
+                    </button>
+                    
+                    <div class="notification-dropdown" id="mailDropdown">
+                        <div class="notification-header">
+                            <span class="notification-title">Messages</span>
+                            <span class="mark-read">Mark all as read</span>
+                        </div>
+                        <div class="notification-list">
+                            <div class="notification-item unread">
+                                <div class="notification-icon icon-info">
+                                    <i class="bi bi-envelope-fill"></i>
+                                </div>
+                                <div class="notification-content">
+                                    <div class="notification-text">New message from Alice Johnson</div>
+                                    <div class="notification-time">5 minutes ago</div>
+                                </div>
+                            </div>
+                            <div class="notification-item unread">
+                                <div class="notification-icon icon-success">
+                                    <i class="bi bi-envelope-fill"></i>
+                                </div>
+                                <div class="notification-content">
+                                    <div class="notification-text">New message from Bob Smith</div>
+                                    <div class="notification-time">30 minutes ago</div>
+                                </div>
+                            </div>
+                            <div class="notification-item unread">
+                                <div class="notification-icon icon-warning">
+                                    <i class="bi bi-envelope-fill"></i>
+                                </div>
+                                <div class="notification-content">
+                                    <div class="notification-text">New message from Carol White</div>
+                                    <div class="notification-time">1 hour ago</div>
+                                </div>
+                            </div>
+                            <div class="notification-item">
+                                <div class="notification-icon icon-info">
+                                    <i class="bi bi-envelope-fill"></i>
+                                </div>
+                                <div class="notification-content">
+                                    <div class="notification-text">New message from David Brown</div>
+                                    <div class="notification-time">2 hours ago</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="notification-wrapper">
+                    
+                    <button class="notification-btn" onclick="toggleNotifications()">
+                        <i class="bi bi-bell-fill"></i>
+                        <span class="notification-badge">3</span>
+                    </button>
+                    
+                    <div class="notification-dropdown" id="notificationDropdown">
+                        <div class="notification-header">
+                            <span class="notification-title">Notifications</span>
+                            <span class="mark-read">Mark all as read</span>
+                        </div>
+                        <div class="notification-list">
+                            <div class="notification-item unread">
+                                <div class="notification-icon icon-success">
+                                    <i class="bi bi-check-circle-fill"></i>
+                                </div>
+                                <div class="notification-content">
+                                    <div class="notification-text">New order received from John Doe</div>
+                                    <div class="notification-time">2 minutes ago</div>
+                                </div>
+                            </div>
+                            <div class="notification-item unread">
+                                <div class="notification-icon icon-warning">
+                                    <i class="bi bi-exclamation-triangle-fill"></i>
+                                </div>
+                                <div class="notification-content">
+                                    <div class="notification-text">Server load is high (85%)</div>
+                                    <div class="notification-time">15 minutes ago</div>
+                                </div>
+                            </div>
+                            <div class="notification-item unread">
+                                <div class="notification-icon icon-info">
+                                    <i class="bi bi-info-circle-fill"></i>
+                                </div>
+                                <div class="notification-content">
+                                    <div class="notification-text">New user registration: Sarah Smith</div>
+                                    <div class="notification-time">1 hour ago</div>
+                                </div>
+                            </div>
+                            <div class="notification-item">
+                                <div class="notification-icon icon-success">
+                                    <i class="bi bi-check-circle-fill"></i>
+                                </div>
+                                <div class="notification-content">
+                                    <div class="notification-text">Payment received: $1,250.00</div>
+                                    <div class="notification-time">3 hours ago</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="user-profile">
+                    <button class="profile-btn" onclick="toggleProfile()">
+                        <div class="profile-avatar">JD</div>
+                        <div class="profile-info">
+                            <p class="profile-name">Shoriful Islam Robi</p>
+                            <p class="profile-role">Administrator</p>
+                        </div>
+                        <i class="bi bi-chevron-down" style="color: var(--text-muted);"></i>
+                    </button>
+
+                    <div class="profile-dropdown" id="profileDropdown">
+                        <div class="profile-header">
+                            <div class="profile-header-avatar">JD</div>
+                            <div class="profile-header-name">John Doe</div>
+                            <div class="profile-header-email">john.doe@example.com</div>
+                        </div>
+                        <div class="profile-menu">
+                            <a href="#" class="profile-menu-item">
+                                <i class="bi bi-person-circle"></i>
+                                <span>My Profile</span>
+                            </a>
+                            <a href="#" class="profile-menu-item">
+                                <i class="bi bi-gear"></i>
+                                <span>Account Settings</span>
+                            </a>
+                            <a href="#" class="profile-menu-item">
+                                <i class="bi bi-shield-check"></i>
+                                <span>Privacy</span>
+                            </a>
+                            <div class="profile-divider"></div>
+                            <a href="#" class="profile-menu-item logout-item" onclick="handleLogout()">
+                                <i class="bi bi-box-arrow-right"></i>
+                                <span>Logout</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        @RenderBody()
+
+        <footer class="border-top footer text-muted">
+            <div class="container">
+                &copy; 2026 - SmartInventoryMS - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            </div>
+        </footer>
+    </main>
+
+   
+   
+
+  
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+
+    <script>
+            function toggleSidebar() {
+                const sidebar = document.getElementById('sidebar');
+                const overlay = document.querySelector('.sidebar-overlay');
+                const icon = document.getElementById('toggle-icon');
+                const mainContent = document.querySelector('.main-content');
+            
+                sidebar.classList.toggle('active');
+                overlay.classList.toggle('active');
+            
+                if (window.innerWidth > 768) {
+                    mainContent.classList.toggle('sidebar-open');
+                }
+            
+                if (sidebar.classList.contains('active')) {
+                    icon.classList.remove('bi-list');
+                    icon.classList.add('bi-x-lg');
+                } else {
+                    icon.classList.remove('bi-x-lg');
+                    icon.classList.add('bi-list');
+                }
+            }
+        
+            function closeSidebar() {
+                const sidebar = document.getElementById('sidebar');
+                const overlay = document.querySelector('.sidebar-overlay');
+                const icon = document.getElementById('toggle-icon');
+                const mainContent = document.querySelector('.main-content');
+            
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+                mainContent.classList.remove('sidebar-open');
+                icon.classList.remove('bi-x-lg');
+                icon.classList.add('bi-list');
+            }
+
+            function closeAllSubmenus() {
+                document.querySelectorAll('.submenu').forEach(sm => {
+                    sm.classList.remove('show');
+                });
+                document.querySelectorAll('.has-submenu').forEach(lk => {
+                    lk.classList.remove('active');
+                });
+            }
+
+            function toggleSubmenu(event, submenuId) {
+                event.preventDefault();
+                event.stopPropagation();
+            
+                const submenu = document.getElementById(submenuId);
+                const link = event.currentTarget;
+                const isShowing = submenu.classList.contains('show');
+            
+                // Only close all if clicking on a different submenu
+                document.querySelectorAll('.submenu.show').forEach(sm => {
+                    if (sm.id !== submenuId) {
+                        sm.classList.remove('show');
+                    }
+                });
+                document.querySelectorAll('.has-submenu.active').forEach(lk => {
+                    if (lk !== link) {
+                        lk.classList.remove('active');
+                    }
+                });
+            
+                if (isShowing) {
+                    submenu.classList.remove('show');
+                    link.classList.remove('active');
+                } else {
+                    submenu.classList.add('show');
+                    link.classList.add('active');
+                }
+            }
+
+            function toggleMail() {
+                const dropdown = document.getElementById('mailDropdown');
+                const notificationDropdown = document.getElementById('notificationDropdown');
+                const profileDropdown = document.getElementById('profileDropdown');
+            
+                dropdown.classList.toggle('show');
+                notificationDropdown.classList.remove('show');
+                profileDropdown.classList.remove('show');
+            }
+
+            function toggleNotifications() {
+                const dropdown = document.getElementById('notificationDropdown');
+                const mailDropdown = document.getElementById('mailDropdown');
+                const profileDropdown = document.getElementById('profileDropdown');
+            
+                dropdown.classList.toggle('show');
+                mailDropdown.classList.remove('show');
+                profileDropdown.classList.remove('show');
+            }
+
+            function toggleProfile() {
+                const dropdown = document.getElementById('profileDropdown');
+                const notificationDropdown = document.getElementById('notificationDropdown');
+                const mailDropdown = document.getElementById('mailDropdown');
+            
+                dropdown.classList.toggle('show');
+                notificationDropdown.classList.remove('show');
+                mailDropdown.classList.remove('show');
+            }
+
+            function handleLogout() {
+                if(confirm('Are you sure you want to logout?')) {
+                    alert('Logging out...');
+                }
+            }
+
+            document.addEventListener('click', function(e) {
+                const notificationWrappers = document.querySelectorAll('.notification-wrapper');
+                const userProfile = document.querySelector('.user-profile');
+                const notificationDropdown = document.getElementById('notificationDropdown');
+                const profileDropdown = document.getElementById('profileDropdown');
+                const mailDropdown = document.getElementById('mailDropdown');
+
+                notificationWrappers.forEach(wrapper => {
+                    if (!wrapper.contains(e.target)) {
+                        if (wrapper.querySelector('#notificationDropdown')) {
+                            notificationDropdown.classList.remove('show');
+                        }
+                        if (wrapper.querySelector('#mailDropdown')) {
+                            mailDropdown.classList.remove('show');
+                        }
+                    }
+                });
+                if (!userProfile.contains(e.target)) {
+                    profileDropdown.classList.remove('show');
+                }
+            });
+
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    // Don't close submenus if clicking on a has-submenu item
+                    if (this.classList.contains('has-submenu')) {
+                        return; // Let toggleSubmenu handle it
+                    }
+                
+                    closeAllSubmenus();
+                
+                    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                
+                    if (window.innerWidth <= 768) {
+                        closeSidebar();
+                    }
+                });
+            });
+        
+            document.querySelectorAll('.submenu-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                
+                    // Remove active from all submenu links
+                    document.querySelectorAll('.submenu-link').forEach(l => l.classList.remove('active'));
+                    // Add active to clicked link
+                    this.classList.add('active');
+                
+                    // Remove active from all main menu links (including parent)
+                    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                
+                    // Keep the parent submenu open but don't make parent active
+                    const parentSubmenu = this.closest('.submenu');
+                    if (parentSubmenu) {
+                        parentSubmenu.classList.add('show');
+                        const parentLink = parentSubmenu.previousElementSibling;
+                        if (parentLink) {
+                            // Don't add active to parent, just keep submenu visible
+                        }
+                    }
+                
+                    if (window.innerWidth <= 768) {
+                        closeSidebar();
+                    }
+                });
+            });
+        
+            document.querySelector('.sidebar-overlay').addEventListener('click', function() {
+                closeSidebar();
+            });
+        
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 768) {
+                    closeSidebar();
+                }
+            });
+
+            document.querySelector('.mark-read').addEventListener('click', function() {
+                document.querySelectorAll('.notification-item').forEach(item => {
+                    item.classList.remove('unread');
+                });
+                document.querySelector('.notification-badge').style.display = 'none';
+            });
+
+            // Initialize DataTable - Generic Plugin Way
+            $(document).ready(function() {
+                // Check if DataTable is already initialized to prevent duplicate initialization
+                if ($.fn.DataTable.isDataTable('#ordersTable')) {
+                    $('#ordersTable').DataTable().destroy();
+                }
+            
+                // Initialize DataTable with all standard plugin features
+                var ordersDataTable = $('#ordersTable').DataTable({
+                    // Core features
+                    processing: false,
+                    serverSide: false,
+                    responsive: true,
+                    paging: true,
+                    searching: true,
+                    ordering: true,
+                    info: true,
+                    order: [[0, 'desc']], // Default order by first column
+                
+                    // Pagination settings
+                    lengthChange: true,
+                    pageLength: 10,
+                    lengthMenu: [ 10, 25, 50, 100],
+                
+                    // Language configuration
+                    language: {
+                        emptyTable: "No data available in table",
+                        info: "Showing _START_ to _END_ of _TOTAL_ entries",
+                        infoEmpty: "Showing 0 to 0 of 0 entries",
+                        infoFiltered: "(filtered from _MAX_ total entries)",
+                        lengthMenu: "Show _MENU_ entries",
+                        loadingRecords: "Loading...",
+                        processing: "Processing...",
+                        search: "_INPUT_",
+                        searchPlaceholder: "Search...",
+                        zeroRecords: "No matching records found",
+                        paginate: {
+                            first: '<i class="bi bi-chevron-double-left"></i>',
+                            last: '<i class="bi bi-chevron-double-right"></i>',
+                            next: '<i class="bi bi-chevron-right"></i>',
+                            previous: '<i class="bi bi-chevron-left"></i>'
+                        },
+                        aria: {
+                            sortAscending: ": activate to sort column ascending",
+                            sortDescending: ": activate to sort column descending"
+                        }
+                    },
+                
+                    // DOM layout - proper plugin structure
+                    dom:
+                        "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+                        "<'row'<'col-sm-12'tr>>" +
+                        "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                
+                    // Column definitions
+                    columns: [
+                        { title: "Order ID", orderable: true, searchable: true },
+                        { title: "Customer", orderable: true, searchable: true },
+                        { title: "Product", orderable: true, searchable: true },
+                        { title: "Amount", orderable: true, searchable: true },
+                        { title: "Status", orderable: true, searchable: true },
+                        { title: "Date", orderable: true, searchable: true }
+                    ],
+                
+                    // Callback when table is drawn
+                    drawCallback: function(settings) {
+                        // Add striping after redraw
+                        $('#ordersTable').addClass('table-striped');
+                    },
+                
+                    // Initialization complete
+                    initComplete: function(settings, json) {
+                        // Add Bootstrap classes to controls
+                        $('.dataTables_length select').addClass('form-select form-select-sm');
+                        $('.dataTables_filter input').addClass('form-control');
+                    
+                        // Style search input
+                        $('.dataTables_filter input').css({
+                            'borderRadius': '25px',
+                            'padding': '8px 15px',
+                            'maxWidth': '300px'
+                        });
+                    
+                        // Style length select
+                        $('.dataTables_length select').css({
+                            'borderRadius': '8px',
+                            'padding': '5px 10px'
+                        });
+                    
+                        // Style pagination
+                        $('.dataTables_paginate').addClass('pagination-sm');
+                    
+                        console.log('DataTable initialized successfully');
+                    }
+                });
+            
+                // Make table searchable via API (additional plugin feature)
+                $('#ordersTable').on('search.dt', function() {
+                    console.log('Search applied:', ordersDataTable.search());
+                });
+            });
+        
+            // Reinitialize DataTable on window resize for responsiveness
+            $(window).on('resize', function() {
+                if ($.fn.DataTable.isDataTable('#ordersTable')) {
+                    $('#ordersTable').DataTable().columns.adjust();
+                }
+            });
+    </script>
+    <!-- DataTables JS -->
+    
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+
+
