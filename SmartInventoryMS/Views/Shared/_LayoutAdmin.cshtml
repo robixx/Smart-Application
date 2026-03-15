@@ -21,7 +21,6 @@
             </div>
             <span class="brand-text">Smart Shop</span>
         </div>
-
         <nav class="nav-menu">
             <div class="nav-item">
                 <a href="#" class="nav-link">
@@ -37,12 +36,12 @@
                 </a>
             </div>
             <div class="nav-item">
-                <a href="#" class="nav-link has-submenu" onclick="toggleSubmenu(event, 'orders-submenu')">
+                <a href="#" class="nav-link" data-bs-toggle="collapse" data-bs-target="#orders-submenu">
                     <i class="bi bi-cart-fill nav-icon"></i>
                     <span>Orders</span>
                     <i class="bi bi-chevron-right submenu-arrow" id="orders-arrow"></i>
                 </a>
-                <div class="submenu" id="orders-submenu">
+                <div class="collapse submenu " id="orders-submenu">
                     <a href="#" class="submenu-link">
                         <i class="bi bi-list-ul"></i>
                         <span>All Orders</span>
@@ -68,12 +67,12 @@
                 </a>
             </div>
             <div class="nav-item">
-                <a href="#" class="nav-link has-submenu" onclick="toggleSubmenu(event, 'revenue-submenu')">
+                <a href="#" class="nav-link" data-bs-toggle="collapse" data-bs-target="#revenue-submenu">
                     <i class="bi bi-wallet-fill nav-icon"></i>
                     <span>Revenue</span>
                     <i class="bi bi-chevron-right submenu-arrow" id="revenue-arrow"></i>
                 </a>
-                <div class="submenu" id="revenue-submenu">
+                <div class="collapse submenu" id="revenue-submenu">
                     <a href="#" class="submenu-link">
                         <i class="bi bi-graph-up"></i>
                         <span>Overview</span>
@@ -106,13 +105,13 @@
                 </a>
             </div>
             <div class="nav-item">
-                <a href="#" class="nav-link has-submenu" onclick="toggleSubmenu(event, 'settings-submenu')">
+                <a href="#" class="nav-link" data-bs-toggle="collapse" data-bs-target="#settings-submenu">
                     <i class="bi bi-gear-fill nav-icon"></i>
                     <span>Settings</span>
                     <i class="bi bi-chevron-right submenu-arrow" id="settings-arrow"></i>
                 </a>
-                <div class="submenu" id="settings-submenu">
-                    <a href="@Url.Action("GetUserList", "Settings", new { area = "Admin" })" class="submenu-link">
+                <div class="collapse submenu" id="settings-submenu">
+                    <a href="@Url.Action("GetUserList","Settings", new{area="Admin"})" class="submenu-link">
                         <i class="bi bi-person-gear"></i>
                         <span>Profile Settings</span>
                     </a>
@@ -131,6 +130,7 @@
                 </div>
             </div>
         </nav>
+        
     </aside>
 
     <main class="main-content">
@@ -286,6 +286,7 @@
                             </a>
                         </div>
                     </div>
+                    
                 </div>
             </div>
         </header>
@@ -310,311 +311,369 @@
     <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
 
     <script>
-            function toggleSidebar() {
-                const sidebar = document.getElementById('sidebar');
-                const overlay = document.querySelector('.sidebar-overlay');
-                const icon = document.getElementById('toggle-icon');
-                const mainContent = document.querySelector('.main-content');
+        function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.querySelector('.sidebar-overlay');
+        const icon = document.getElementById('toggle-icon');
+        const mainContent = document.querySelector('.main-content');
             
-                sidebar.classList.toggle('active');
-                overlay.classList.toggle('active');
+        sidebar.classList.toggle('active');
+        overlay.classList.toggle('active');
             
-                if (window.innerWidth > 768) {
-                    mainContent.classList.toggle('sidebar-open');
-                }
             
-                if (sidebar.classList.contains('active')) {
-                    icon.classList.remove('bi-list');
-                    icon.classList.add('bi-x-lg');
-                } else {
-                    icon.classList.remove('bi-x-lg');
-                    icon.classList.add('bi-list');
-                }
-            }
+            
+        if (window.innerWidth > 768) {
+        mainContent.classList.toggle('sidebar-open');
+        }
+            
+        if (sidebar.classList.contains('active')) {
+        icon.classList.remove('bi-list');
+        icon.classList.add('bi-x-lg');
+        } else {
+        icon.classList.remove('bi-x-lg');
+        icon.classList.add('bi-list');
+        }
+        }
         
-            function closeSidebar() {
-                const sidebar = document.getElementById('sidebar');
-                const overlay = document.querySelector('.sidebar-overlay');
-                const icon = document.getElementById('toggle-icon');
-                const mainContent = document.querySelector('.main-content');
+        function closeSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.querySelector('.sidebar-overlay');
+        const icon = document.getElementById('toggle-icon');
+        const mainContent = document.querySelector('.main-content');
             
-                sidebar.classList.remove('active');
-                overlay.classList.remove('active');
-                mainContent.classList.remove('sidebar-open');
-                icon.classList.remove('bi-x-lg');
-                icon.classList.add('bi-list');
-            }
+        sidebar.classList.remove('active');
+        overlay.classList.remove('active');
+        mainContent.classList.remove('sidebar-open');
+        icon.classList.remove('bi-x-lg');
+        icon.classList.add('bi-list');
+        }
 
-            function closeAllSubmenus() {
-                document.querySelectorAll('.submenu').forEach(sm => {
-                    sm.classList.remove('show');
-                });
-                document.querySelectorAll('.has-submenu').forEach(lk => {
-                    lk.classList.remove('active');
-                });
-            }
+        function closeAllSubmenus() {
+        document.querySelectorAll('.submenu').forEach(sm => {
+        sm.classList.remove('show');
+        });
+        document.querySelectorAll('.has-submenu').forEach(lk => {
+        lk.classList.remove('active');
+        });
+        }
 
-            function toggleSubmenu(event, submenuId) {
-                event.preventDefault();
-                event.stopPropagation();
+        function toggleSubmenu(event, submenuId) {
+        event.preventDefault();
+        event.stopPropagation();
             
-                const submenu = document.getElementById(submenuId);
-                const link = event.currentTarget;
-                const isShowing = submenu.classList.contains('show');
+        const submenu = document.getElementById(submenuId);
+        const link = event.currentTarget;
+        const isShowing = submenu.classList.contains('show');
             
-                // Only close all if clicking on a different submenu
-                document.querySelectorAll('.submenu.show').forEach(sm => {
-                    if (sm.id !== submenuId) {
-                        sm.classList.remove('show');
-                    }
-                });
-                document.querySelectorAll('.has-submenu.active').forEach(lk => {
-                    if (lk !== link) {
-                        lk.classList.remove('active');
-                    }
-                });
+        // Only close all if clicking on a different submenu
+        document.querySelectorAll('.submenu.show').forEach(sm => {
+        if (sm.id !== submenuId) {
+        sm.classList.remove('show');
+        }
+        });
+        document.querySelectorAll('.has-submenu.active').forEach(lk => {
+        if (lk !== link) {
+        lk.classList.remove('active');
+        }
+        });
             
-                if (isShowing) {
-                    submenu.classList.remove('show');
-                    link.classList.remove('active');
-                } else {
-                    submenu.classList.add('show');
-                    link.classList.add('active');
-                }
-            }
+        if (isShowing) {
+        submenu.classList.remove('show');
+        link.classList.remove('active');
+        } else {
+        submenu.classList.add('show');
+        link.classList.add('active');
+        }
+        }
 
-            function toggleMail() {
-                const dropdown = document.getElementById('mailDropdown');
-                const notificationDropdown = document.getElementById('notificationDropdown');
-                const profileDropdown = document.getElementById('profileDropdown');
+        function toggleMail() {
+        const dropdown = document.getElementById('mailDropdown');
+        const notificationDropdown = document.getElementById('notificationDropdown');
+        const profileDropdown = document.getElementById('profileDropdown');
             
-                dropdown.classList.toggle('show');
-                notificationDropdown.classList.remove('show');
-                profileDropdown.classList.remove('show');
-            }
+        dropdown.classList.toggle('show');
+        notificationDropdown.classList.remove('show');
+        profileDropdown.classList.remove('show');
+        }
 
-            function toggleNotifications() {
-                const dropdown = document.getElementById('notificationDropdown');
-                const mailDropdown = document.getElementById('mailDropdown');
-                const profileDropdown = document.getElementById('profileDropdown');
+        function toggleNotifications() {
+        const dropdown = document.getElementById('notificationDropdown');
+        const mailDropdown = document.getElementById('mailDropdown');
+        const profileDropdown = document.getElementById('profileDropdown');
             
-                dropdown.classList.toggle('show');
-                mailDropdown.classList.remove('show');
-                profileDropdown.classList.remove('show');
-            }
+        dropdown.classList.toggle('show');
+        mailDropdown.classList.remove('show');
+        profileDropdown.classList.remove('show');
+        }
 
-            function toggleProfile() {
-                const dropdown = document.getElementById('profileDropdown');
-                const notificationDropdown = document.getElementById('notificationDropdown');
-                const mailDropdown = document.getElementById('mailDropdown');
+        function toggleProfile() {
+        const dropdown = document.getElementById('profileDropdown');
+        const notificationDropdown = document.getElementById('notificationDropdown');
+        const mailDropdown = document.getElementById('mailDropdown');
             
-                dropdown.classList.toggle('show');
-                notificationDropdown.classList.remove('show');
-                mailDropdown.classList.remove('show');
-            }
+        dropdown.classList.toggle('show');
+        notificationDropdown.classList.remove('show');
+        mailDropdown.classList.remove('show');
+        }
 
-            function handleLogout() {
-                if(confirm('Are you sure you want to logout?')) {
-                    alert('Logging out...');
-                }
-            }
+        function handleLogout() {
+        if(confirm('Are you sure you want to logout?')) {
+        alert('Logging out...');
+        }
+        }
 
-            document.addEventListener('click', function(e) {
-                const notificationWrappers = document.querySelectorAll('.notification-wrapper');
-                const userProfile = document.querySelector('.user-profile');
-                const notificationDropdown = document.getElementById('notificationDropdown');
-                const profileDropdown = document.getElementById('profileDropdown');
-                const mailDropdown = document.getElementById('mailDropdown');
+        document.addEventListener('click', function(e) {
+        const notificationWrappers = document.querySelectorAll('.notification-wrapper');
+        const userProfile = document.querySelector('.user-profile');
+        const notificationDropdown = document.getElementById('notificationDropdown');
+        const profileDropdown = document.getElementById('profileDropdown');
+        const mailDropdown = document.getElementById('mailDropdown');
 
-                notificationWrappers.forEach(wrapper => {
-                    if (!wrapper.contains(e.target)) {
-                        if (wrapper.querySelector('#notificationDropdown')) {
-                            notificationDropdown.classList.remove('show');
-                        }
-                        if (wrapper.querySelector('#mailDropdown')) {
-                            mailDropdown.classList.remove('show');
-                        }
-                    }
-                });
-                if (!userProfile.contains(e.target)) {
-                    profileDropdown.classList.remove('show');
-                }
-            });
+        notificationWrappers.forEach(wrapper => {
+        if (!wrapper.contains(e.target)) {
+        if (wrapper.querySelector('#notificationDropdown')) {
+        notificationDropdown.classList.remove('show');
+        }
+        if (wrapper.querySelector('#mailDropdown')) {
+        mailDropdown.classList.remove('show');
+        }
+        }
+        });
+        if (!userProfile.contains(e.target)) {
+        profileDropdown.classList.remove('show');
+        }
+        });
 
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.addEventListener('click', function(e) {
-                    // Don't close submenus if clicking on a has-submenu item
-                    if (this.classList.contains('has-submenu')) {
-                        return; // Let toggleSubmenu handle it
-                    }
+        document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+        // Don't close submenus if clicking on a has-submenu item
+        if (this.classList.contains('has-submenu')) {
+        return; // Let toggleSubmenu handle it
+        }
                 
-                    closeAllSubmenus();
+        closeAllSubmenus();
                 
-                    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-                    this.classList.add('active');
+        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+        this.classList.add('active');
                 
-                    if (window.innerWidth <= 768) {
-                        closeSidebar();
-                    }
-                });
-            });
+        if (window.innerWidth <= 768) {
+        closeSidebar();
+        }
+        });
+        });
         
-            document.querySelectorAll('.submenu-link').forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
+        document.querySelectorAll('.submenu-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+        // Allow navigation if href is not "#"
+        if (link.getAttribute('href') !== '#') {
+        return; // Let the default navigation happen
+        }
                 
-                    // Remove active from all submenu links
-                    document.querySelectorAll('.submenu-link').forEach(l => l.classList.remove('active'));
-                    // Add active to clicked link
-                    this.classList.add('active');
+        e.preventDefault();
                 
-                    // Remove active from all main menu links (including parent)
-                    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+        // Remove active from all submenu links
+        document.querySelectorAll('.submenu-link').forEach(l => l.classList.remove('active'));
+        // Add active to clicked link
+        this.classList.add('active');
                 
-                    // Keep the parent submenu open but don't make parent active
-                    const parentSubmenu = this.closest('.submenu');
-                    if (parentSubmenu) {
-                        parentSubmenu.classList.add('show');
-                        const parentLink = parentSubmenu.previousElementSibling;
-                        if (parentLink) {
-                            // Don't add active to parent, just keep submenu visible
-                        }
-                    }
+        // Remove active from all main menu links (including parent)
+        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
                 
-                    if (window.innerWidth <= 768) {
-                        closeSidebar();
-                    }
-                });
-            });
+        // Keep the parent submenu open but don't make parent active
+        const parentSubmenu = this.closest('.submenu');
+        if (parentSubmenu) {
+        parentSubmenu.classList.add('show');
+        const parentLink = parentSubmenu.previousElementSibling;
+        if (parentLink) {
+        // Don't add active to parent, just keep submenu visible
+        }
+        }
+                
+        if (window.innerWidth <= 768) {
+        closeSidebar();
+        }
+        });
+        });
         
-            document.querySelector('.sidebar-overlay').addEventListener('click', function() {
-                closeSidebar();
-            });
+        document.querySelector('.sidebar-overlay').addEventListener('click', function() {
+        closeSidebar();
+        });
         
-            window.addEventListener('resize', function() {
-                if (window.innerWidth > 768) {
-                    closeSidebar();
-                }
-            });
+        window.addEventListener('resize', function() {
+        if (window.innerWidth > 768) {
+        closeSidebar();
+        }
+        });
 
-            document.querySelector('.mark-read').addEventListener('click', function() {
-                document.querySelectorAll('.notification-item').forEach(item => {
-                    item.classList.remove('unread');
-                });
-                document.querySelector('.notification-badge').style.display = 'none';
-            });
+        document.querySelector('.mark-read').addEventListener('click', function() {
+        document.querySelectorAll('.notification-item').forEach(item => {
+        item.classList.remove('unread');
+        });
+        document.querySelector('.notification-badge').style.display = 'none';
+        });
 
-            // Initialize DataTable - Generic Plugin Way
-            $(document).ready(function() {
-                // Check if DataTable is already initialized to prevent duplicate initialization
-                if ($.fn.DataTable.isDataTable('#ordersTable')) {
-                    $('#ordersTable').DataTable().destroy();
-                }
+        // Arrow rotation for Bootstrap collapse
+        document.querySelectorAll('[data-bs-toggle="collapse"]').forEach(function(element) {
+        // Reset all arrows to right (0deg) on page load
+        var arrow = element.querySelector('.submenu-arrow');
+        if (arrow) {
+        arrow.style.transform = 'rotate(0deg)';
+        }
             
-                // Initialize DataTable with all standard plugin features
-                var ordersDataTable = $('#ordersTable').DataTable({
-                    // Core features
-                    processing: false,
-                    serverSide: false,
-                    responsive: true,
-                    paging: true,
-                    searching: true,
-                    ordering: true,
-                    info: true,
-                    order: [[0, 'desc']], // Default order by first column
+        // Toggle arrow on click
+        element.addEventListener('click', function() {
+        var target = this.getAttribute('data-bs-target');
+        var arrow = this.querySelector('.submenu-arrow');
+        var isExpanded = this.getAttribute('aria-expanded') === 'true';
                 
-                    // Pagination settings
-                    lengthChange: true,
-                    pageLength: 10,
-                    lengthMenu: [ 10, 25, 50, 100],
+        // Reset all other arrows
+        document.querySelectorAll('[data-bs-toggle="collapse"] .submenu-arrow').forEach(function(a) {
+        if (a !== arrow) {
+        a.style.transform = 'rotate(0deg)';
+        }
+        });
                 
-                    // Language configuration
-                    language: {
-                        emptyTable: "No data available in table",
-                        info: "Showing _START_ to _END_ of _TOTAL_ entries",
-                        infoEmpty: "Showing 0 to 0 of 0 entries",
-                        infoFiltered: "(filtered from _MAX_ total entries)",
-                        lengthMenu: "Show _MENU_ entries",
-                        loadingRecords: "Loading...",
-                        processing: "Processing...",
-                        search: "_INPUT_",
-                        searchPlaceholder: "Search...",
-                        zeroRecords: "No matching records found",
-                        paginate: {
-                            first: '<i class="bi bi-chevron-double-left"></i>',
-                            last: '<i class="bi bi-chevron-double-right"></i>',
-                            next: '<i class="bi bi-chevron-right"></i>',
-                            previous: '<i class="bi bi-chevron-left"></i>'
-                        },
-                        aria: {
-                            sortAscending: ": activate to sort column ascending",
-                            sortDescending: ": activate to sort column descending"
-                        }
-                    },
+        // Toggle current arrow
+        if (isExpanded) {
+        arrow.style.transform = 'rotate(90deg)';
+        } else {
+        arrow.style.transform = 'rotate(0deg)';
+        }
+        });
+        });
+        
+        // Also listen to Bootstrap's shown/shown.bs.collapse events
+        document.querySelectorAll('.collapse').forEach(function(collapse) {
+        collapse.addEventListener('shown.bs.collapse', function() {
+        var toggle = document.querySelector('[data-bs-target="#' + this.id + '"]');
+        if (toggle) {
+        var arrow = toggle.querySelector('.submenu-arrow');
+        if (arrow) arrow.style.transform = 'rotate(90deg)';
+        }
+        });
+            
+        collapse.addEventListener('hidden.bs.collapse', function() {
+        var toggle = document.querySelector('[data-bs-target="#' + this.id + '"]');
+        if (toggle) {
+        var arrow = toggle.querySelector('.submenu-arrow');
+        if (arrow) arrow.style.transform = 'rotate(0deg)';
+        }
+        });
+        });
+
+        // Initialize DataTable - Generic Plugin Way
+        $(document).ready(function() {
+        // Check if DataTable is already initialized to prevent duplicate initialization
+        if ($.fn.DataTable.isDataTable('#ordersTable')) {
+        $('#ordersTable').DataTable().destroy();
+        }
+            
+        // Initialize DataTable with all standard plugin features
+        var ordersDataTable = $('#ordersTable').DataTable({
+        // Core features
+        processing: false,
+        serverSide: false,
+        responsive: true,
+        paging: true,
+        searching: true,
+        ordering: true,
+        info: true,
+        order: [[0, 'desc']], // Default order by first column
                 
-                    // DOM layout - proper plugin structure
-                    dom:
-                        "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
-                        "<'row'<'col-sm-12'tr>>" +
-                        "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+        // Pagination settings
+        lengthChange: true,
+        pageLength: 10,
+        lengthMenu: [ 10, 25, 50, 100],
                 
-                    // Column definitions
-                    columns: [
-                        { title: "Order ID", orderable: true, searchable: true },
-                        { title: "Customer", orderable: true, searchable: true },
-                        { title: "Product", orderable: true, searchable: true },
-                        { title: "Amount", orderable: true, searchable: true },
-                        { title: "Status", orderable: true, searchable: true },
-                        { title: "Date", orderable: true, searchable: true }
-                    ],
+        // Language configuration
+        language: {
+        emptyTable: "No data available in table",
+        info: "Showing _START_ to _END_ of _TOTAL_ entries",
+        infoEmpty: "Showing 0 to 0 of 0 entries",
+        infoFiltered: "(filtered from _MAX_ total entries)",
+        lengthMenu: "Show _MENU_ entries",
+        loadingRecords: "Loading...",
+        processing: "Processing...",
+        search: "_INPUT_",
+        searchPlaceholder: "Search...",
+        zeroRecords: "No matching records found",
+        paginate: {
+        first: '<i class="bi bi-chevron-double-left"></i>',
+        last: '<i class="bi bi-chevron-double-right"></i>',
+        next: '<i class="bi bi-chevron-right"></i>',
+        previous: '<i class="bi bi-chevron-left"></i>'
+        },
+        aria: {
+        sortAscending: ": activate to sort column ascending",
+        sortDescending: ": activate to sort column descending"
+        }
+        },
                 
-                    // Callback when table is drawn
-                    drawCallback: function(settings) {
-                        // Add striping after redraw
-                        $('#ordersTable').addClass('table-striped');
-                    },
+        // DOM layout - proper plugin structure
+        dom:
+        "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+        "<'row'<'col-sm-12'tr>>" +
+        "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
                 
-                    // Initialization complete
-                    initComplete: function(settings, json) {
-                        // Add Bootstrap classes to controls
-                        $('.dataTables_length select').addClass('form-select form-select-sm');
-                        $('.dataTables_filter input').addClass('form-control');
+        // Column definitions
+        columns: [
+        { title: "Order ID", orderable: true, searchable: true },
+        { title: "Customer", orderable: true, searchable: true },
+        { title: "Product", orderable: true, searchable: true },
+        { title: "Amount", orderable: true, searchable: true },
+        { title: "Status", orderable: true, searchable: true },
+        { title: "Date", orderable: true, searchable: true }
+        ],
+                
+        // Callback when table is drawn
+        drawCallback: function(settings) {
+        // Add striping after redraw
+        $('#ordersTable').addClass('table-striped');
+        },
+                
+        // Initialization complete
+        initComplete: function(settings, json) {
+        // Add Bootstrap classes to controls
+        $('.dataTables_length select').addClass('form-select form-select-sm');
+        $('.dataTables_filter input').addClass('form-control');
                     
-                        // Style search input
-                        $('.dataTables_filter input').css({
-                            'borderRadius': '25px',
-                            'padding': '8px 15px',
-                            'maxWidth': '300px'
-                        });
+        // Style search input
+        $('.dataTables_filter input').css({
+        'borderRadius': '25px',
+        'padding': '8px 15px',
+        'maxWidth': '300px'
+        });
                     
-                        // Style length select
-                        $('.dataTables_length select').css({
-                            'borderRadius': '8px',
-                            'padding': '5px 10px'
-                        });
+        // Style length select
+        $('.dataTables_length select').css({
+        'borderRadius': '8px',
+        'padding': '5px 10px'
+        });
                     
-                        // Style pagination
-                        $('.dataTables_paginate').addClass('pagination-sm');
+        // Style pagination
+        $('.dataTables_paginate').addClass('pagination-sm');
                     
-                        console.log('DataTable initialized successfully');
-                    }
-                });
+        console.log('DataTable initialized successfully');
+        }
+        });
             
-                // Make table searchable via API (additional plugin feature)
-                $('#ordersTable').on('search.dt', function() {
-                    console.log('Search applied:', ordersDataTable.search());
-                });
-            });
+        // Make table searchable via API (additional plugin feature)
+        $('#ordersTable').on('search.dt', function() {
+        console.log('Search applied:', ordersDataTable.search());
+        });
+        });
         
-            // Reinitialize DataTable on window resize for responsiveness
-            $(window).on('resize', function() {
-                if ($.fn.DataTable.isDataTable('#ordersTable')) {
-                    $('#ordersTable').DataTable().columns.adjust();
-                }
-            });
+        // Reinitialize DataTable on window resize for responsiveness
+        $(window).on('resize', function() {
+        if ($.fn.DataTable.isDataTable('#ordersTable')) {
+        $('#ordersTable').DataTable().columns.adjust();
+        }
+        });
+
+
+
     </script>
     <!-- DataTables JS -->
-    
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

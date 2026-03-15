@@ -6,7 +6,7 @@ namespace SmartInventoryMS.Areas.Admin.Controllers
     public class SettingsController : Controller
     {
 
-        [HttpGet]
+       
         public IActionResult GetUserList()
         {
             return View();
