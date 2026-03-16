@@ -12,6 +12,26 @@
     <link href="~/css/customstyle.css" rel="stylesheet" />
 </head>
 <body>
+
+    @using SmartInventory.Applycation.Interface
+    @using SmartInventory.Applycation.ModelView
+    @inject IMenu MenuService
+
+@{
+        var (message, status, menuList) = await MenuService.getMenuAsync();
+        if (!status)
+        {
+            menuList = new List<MenuDto>();
+                                           
+        }
+
+        var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+        var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+        var currentArea = ViewContext.RouteData.Values["area"]?.ToString();
+}
+
+
+
     <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
 
     <aside class="sidebar" id="sidebar">
@@ -22,113 +42,55 @@
             <span class="brand-text">Smart Shop</span>
         </div>
         <nav class="nav-menu">
-            <div class="nav-item">
-                <a href="#" class="nav-link">
-                    <i class="bi bi-grid-1x2-fill nav-icon"></i>
-                    <span>Dashboard</span>
-                </a>
-            </div>
-            <div class="nav-item">
-                <a href="#" class="nav-link">
-                    <i class="bi bi-people-fill nav-icon"></i>
-                    <span>Users</span>
-                    <span class="nav-badge">24</span>
-                </a>
-            </div>
-            <div class="nav-item">
-                <a href="#" class="nav-link" data-bs-toggle="collapse" data-bs-target="#orders-submenu">
-                    <i class="bi bi-cart-fill nav-icon"></i>
-                    <span>Orders</span>
-                    <i class="bi bi-chevron-right submenu-arrow" id="orders-arrow"></i>
-                </a>
-                <div class="collapse submenu " id="orders-submenu">
-                    <a href="#" class="submenu-link">
-                        <i class="bi bi-list-ul"></i>
-                        <span>All Orders</span>
-                    </a>
-                    <a href="#" class="submenu-link">
-                        <i class="bi bi-plus-circle"></i>
-                        <span>New Order</span>
-                    </a>
-                    <a href="#" class="submenu-link">
-                        <i class="bi bi-clock-history"></i>
-                        <span>Pending</span>
-                    </a>
-                    <a href="#" class="submenu-link">
-                        <i class="bi bi-check2-circle"></i>
-                        <span>Completed</span>
-                    </a>
-                </div>
-            </div>
-            <div class="nav-item">
-                <a href="#" class="nav-link">
-                    <i class="bi bi-graph-up-arrow nav-icon"></i>
-                    <span>Analytics</span>
-                </a>
-            </div>
-            <div class="nav-item">
-                <a href="#" class="nav-link" data-bs-toggle="collapse" data-bs-target="#revenue-submenu">
-                    <i class="bi bi-wallet-fill nav-icon"></i>
-                    <span>Revenue</span>
-                    <i class="bi bi-chevron-right submenu-arrow" id="revenue-arrow"></i>
-                </a>
-                <div class="collapse submenu" id="revenue-submenu">
-                    <a href="#" class="submenu-link">
-                        <i class="bi bi-graph-up"></i>
-                        <span>Overview</span>
-                    </a>
-                    <a href="#" class="submenu-link">
-                        <i class="bi bi-currency-dollar"></i>
-                        <span>Payments</span>
-                    </a>
-                    <a href="#" class="submenu-link">
-                        <i class="bi bi-receipt"></i>
-                        <span>Invoices</span>
-                    </a>
-                    <a href="#" class="submenu-link">
-                        <i class="bi bi-pie-chart"></i>
-                        <span>Reports</span>
-                    </a>
-                </div>
-            </div>
-            <div class="nav-item">
-                <a href="#" class="nav-link">
-                    <i class="bi bi-chat-dots-fill nav-icon"></i>
-                    <span>Messages</span>
-                    <span class="nav-badge">5</span>
-                </a>
-            </div>
-            <div class="nav-item">
-                <a href="#" class="nav-link">
-                    <i class="bi bi-folder-fill nav-icon"></i>
-                    <span>Projects</span>
-                </a>
-            </div>
-            <div class="nav-item">
-                <a href="#" class="nav-link" data-bs-toggle="collapse" data-bs-target="#settings-submenu">
-                    <i class="bi bi-gear-fill nav-icon"></i>
-                    <span>Settings</span>
-                    <i class="bi bi-chevron-right submenu-arrow" id="settings-arrow"></i>
-                </a>
-                <div class="collapse submenu" id="settings-submenu">
-                    <a href="@Url.Action("GetUserList","Settings", new{area="Admin"})" class="submenu-link">
-                        <i class="bi bi-person-gear"></i>
-                        <span>Profile Settings</span>
-                    </a>
-                    <a href="#" class="submenu-link">
-                        <i class="bi bi-bell"></i>
-                        <span>Notifications</span>
-                    </a>
-                    <a href="#" class="submenu-link">
-                        <i class="bi bi-shield-lock"></i>
-                        <span>Security</span>
-                    </a>
-                    <a href="#" class="submenu-link">
-                        <i class="bi bi-palette"></i>
-                        <span>Appearance</span>
-                    </a>
-                </div>
-            </div>
+
+            @foreach (var menu in menuList)
+            {
+                bool isParentActive = menu.submenu != null && menu.submenu.Any() &&
+                                      menu.submenu.Any(s =>
+                                          s.ActionController == currentController &&
+                                          s.ActionMethod == currentAction &&
+                                          s.AreaName == currentArea);
+
+                bool isParentDirectActive = menu.ActionController == currentController &&
+                                            menu.ActionMethod == currentAction &&
+                                            menu.AreaName == currentArea;
+
+                bool showCollapse = isParentActive || isParentDirectActive;
+
+                if (menu.submenu != null && menu.submenu.Any())
+                {
+                    <div class="nav-item">
+                        <a href="#" class="nav-link @(showCollapse ? "active" : "")" data-bs-toggle="collapse" data-bs-target="#submenu-@menu.MenuId" aria-expanded="@(showCollapse.ToString().ToLower())">
+                            <i class="bi @menu.Icon nav-icon"></i>
+                            <span>@menu.MenuName</span>
+                            <i class="bi bi-chevron-right submenu-arrow"></i>
+                        </a>
+                        <div class="collapse submenu @(showCollapse ? "show" : "")" id="submenu-@menu.MenuId">
+                            @foreach (var sub in menu.submenu)
+                            {
+                                bool isActive = sub.ActionController == currentController &&
+                                                sub.ActionMethod == currentAction &&
+                                                sub.AreaName == currentArea;
+
+                                <a href="@Url.Action(sub.ActionMethod, sub.ActionController, new { area = sub.AreaName })" class="submenu-link @(isActive ? "active" : "")">
+                                    <i class="bi @sub.Icon"></i>
+                                    <span>@sub.MenuName</span>
+                                </a>
+                            }
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="nav-item">
+                        <a href="@menu.MenuUrl" class="nav-link @(isParentDirectActive ? "active" : "")">
+                            <i class="bi @menu.Icon nav-icon"></i>
+                            <span>@menu.MenuName</span>
+                        </a>
+                    </div>
+                }
+            }
+            
         </nav>
         
     </aside>

@@ -1,7 +1,12 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.EntityFrameworkCore;
+using SmartInventory.Applycation.Interface;
+using SmartInventory.Infrastructure.DataConnect;
+using SmartInventory.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Services.AddDbContext<DatabaseConnection>
+    (options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddSession(options =>
@@ -10,6 +15,8 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
+
+builder.Services.AddScoped<IMenu,MenuService>();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>

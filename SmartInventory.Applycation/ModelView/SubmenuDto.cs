@@ -1,18 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SmartInventory.Domain.Entity
+namespace SmartInventory.Applycation.ModelView
 {
-    
-    public class Menu
+    public class SubmenuDto
     {
-        [Key]
         public int MenuId { get; set; }
-        public string MenuName { get; set; }=string.Empty;
+        public string MenuName { get; set; } = string.Empty;
         public string? MenuUrl { get; set; }
         public string? AreaName { get; set; }
         public string? ActionController { get; set; }
@@ -20,6 +17,5 @@ namespace SmartInventory.Domain.Entity
         public int? ParentMenuId { get; set; }
         public string? Icon { get; set; }
         public int DisplayOrder { get; set; }
-        public int IsActive { get; set; } = 0;
     }
 }

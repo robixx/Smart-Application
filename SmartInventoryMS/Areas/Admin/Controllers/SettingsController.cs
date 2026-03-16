@@ -11,5 +11,11 @@ namespace SmartInventoryMS.Areas.Admin.Controllers
         {
             return View();
         }
+
+
+        public IActionResult UserProfile()
+        {
+            return View();
+        }
     }
 }
