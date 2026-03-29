@@ -3,20 +3,614 @@
     ViewData["Title"] = "User List";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
+<style>
+    :root {
+            --primary: #5c7e22;
+            --primary-light: #7ba32e;
+            --primary-dark: #3d5216;
+            --primary-color: #5c7e22;
+            --secondary-color: #7ba32e;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --info-color: #3b82f6;
+            --bg-light: #f5f7fa;
+            --card-bg: #ffffff;
+            --text-primary: #333333;
+            --text-secondary: #666666;
+            --text-muted: #999999;
+            --text-dark: #333333;
+            --border-color: #e0e0e0;
+        }
+    /* Form Sections */
+        .form-section {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
 
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0;
+        }
+
+        .form-label {
+            font-weight: 500;
+            color: var(--text-dark);
+            font-size: 0.9rem;
+        }
+
+        .form-control, .form-select {
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 0.75rem 1rem;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(92, 126, 34, 0.15);
+        }
+
+        .input-group-text {
+            background: var(--bg-light);
+            border: 1px solid var(--border-color);
+            border-radius: 10px 0 0 10px;
+            color: var(--text-muted);
+        }
+
+        /* Toggle Switch */
+        .form-check-input:checked {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        /* Session Management */
+        .session-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            margin-bottom: 0.75rem;
+            transition: all 0.2s ease;
+        }
+
+        .session-item:hover {
+            background: var(--bg-light);
+        }
+
+        .session-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .session-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(92, 126, 34, 0.1);
+            color: var(--primary-color);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .session-details h5 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .session-details p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        .session-current {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success-color);
+            padding: 0.25rem 0.5rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        /* Activity Log */
+        .activity-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .activity-icon.login { background: rgba(16, 185, 129, 0.1); color: var(--success-color); }
+        .activity-icon.logout { background: rgba(239, 68, 68, 0.1); color: var(--danger-color); }
+        .activity-icon.update { background: rgba(59, 130, 246, 0.1); color: var(--info-color); }
+        .activity-icon.security { background: rgba(245, 158, 11, 0.1); color: var(--warning-color); }
+
+        .activity-content h5 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .activity-content p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin: 0.25rem 0 0 0;
+        }
+
+        .activity-time {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            white-space: nowrap;
+            margin-left: auto;
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background: var(--primary-color);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(92, 126, 34, 0.3);
+        }
+
+        .btn-outline-danger {
+            border: 1px solid var(--danger-color);
+            color: var(--danger-color);
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline-danger:hover {
+            background: var(--danger-color);
+            color: white;
+        }
+
+        .btn-light {
+            background: var(--bg-light);
+            border: 1px solid var(--border-color);
+            color: var(--text-dark);
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+
+        /* Permissions Table */
+        .permissions-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        .permissions-table th {
+            background: var(--bg-light);
+            padding: 1rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .permissions-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            vertical-align: middle;
+        }
+
+        .permission-tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .permission-tag.read {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--info-color);
+        }
+
+        .permission-tag.write {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success-color);
+        }
+
+        .permission-tag.admin {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning-color);
+        }
+         /* Profile Card */
+        .profile-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+
+        .profile-headers {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .profile-avatar-large {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .profile-infos h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .profile-roles {
+            display: inline-block;
+            background: rgba(92, 126, 34, 0.1);
+            color: var(--primary-color);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-metas {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .profile-metas span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+         /* Buttons */
+        .btn-primary {
+            background: var(--primary-color);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(92, 126, 34, 0.3);
+        }
+
+        .btn-outline-danger {
+            border: 1px solid var(--danger-color);
+            color: var(--danger-color);
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline-danger:hover {
+            background: var(--danger-color);
+            color: white;
+        }
+
+        .btn-light {
+            background: var(--bg-light);
+            border: 1px solid var(--border-color);
+            color: var(--text-dark);
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+        .text-custom{
+            color:var(--primary);
+        }
+
+</style>
 
 
 <div class="dashboard-content">
-    <h3 class="page-title">User Profile</h3>
+    <h3 class="page-title">User Profile</h3>   
+             
+                <div class="row">
+                    <!-- Left Column: Profile Info -->
+                    <div class="col-lg-8">
+                        <!-- Personal Information -->
+                        <div class="form-section">
+                            <div class="section-header">
+                                <h3 class="section-title">
+                                    <i class="bi bi-person-vcard text-custom"></i>
+                                    Personal Information
+                                </h3>
+                                <button class="btn btn-primary btn-sm">
+                                    <i class="bi bi-pencil me-1"></i>Edit Profile
+                                </button>
+                            </div>
 
-    <div class="table-card">
-        <div class="table-header">
-            <div class="table-header-left">
-                <h3 class="table-title">User Data Details</h3>
-                       
-            </div>
-           
-        </div>
-        
-    </div>
+                            <div class="profile-headers mb-4">
+                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop" alt="Profile" class="profile-avatar-large">
+                                <div class="profile-infos">
+                                    <h2>Shoriful Islam Robi</h2>
+                                    <span class="profile-roles">Genaral Manager</span>
+                                    <div class="profile-metas">
+                                        <span><i class="bi bi-envelope"></i> alex.morgan@inventorypro.com</span>
+                                        <span><i class="bi bi-telephone"></i> +1 (555) 123-4567</span>
+                                        <span><i class="bi bi-geo-alt"></i> Warehouse A, Floor 2</span>
+                                        <span><i class="bi bi-calendar"></i> Joined Jan 15, 2023</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <form>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label">First Name</label>
+                                        <input type="text" class="form-control" value="Alex" readonly>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Last Name</label>
+                                        <input type="text" class="form-control" value="Morgan" readonly>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Employee ID</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="bi bi-id-card"></i></span>
+                                            <input type="text" class="form-control" value="EMP-2023-00142" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Department</label>
+                                        <select class="form-select" disabled>
+                                            <option selected>Warehouse Operations</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Work Phone</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="bi bi-telephone"></i></span>
+                                            <input type="tel" class="form-control" value="+1 (555) 123-4567">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Emergency Contact</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="bi bi-telephone-plus"></i></span>
+                                            <input type="tel" class="form-control" value="+1 (555) 987-6543">
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Login Credentials -->
+                        <div class="form-section">
+                            <div class="section-header">
+                                <h3 class="section-title">
+                                    <i class="bi bi-shield-lock text-custom"></i>
+                                    Login & Security
+                                </h3>
+                                <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#changePasswordModal">
+                                    <i class="bi bi-key me-1"></i>Change Password
+                                </button>
+                            </div>
+
+                            <form>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label">Username</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="bi bi-person"></i></span>
+                                            <input type="text" class="form-control" value="alex.morgan" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Email Address (Login)</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                                            <input type="email" class="form-control" value="alex.morgan@inventorypro.com">
+                                        </div>
+                                    </div>
+                            
+                                    <div class="col-12">
+                                        <label class="form-label">Current Password</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                                            <input type="password" class="form-control" value="************" readonly>
+                                            <button class="btn btn-outline-secondary" type="button" onclick="togglePassword(this)">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>                        
+                    </div>
+
+                    <!-- Right Column: Security & Activity -->
+                    <div class="col-lg-4">
+                        <!-- Active Sessions -->
+                        <div class="form-section">
+                            <div class="section-header">
+                                <h3 class="section-title">
+                                    <i class="bi bi-devices text-custom"></i>
+                                    Active Sessions
+                                </h3>
+                            </div>
+
+                            <div class="session-item">
+                                <div class="session-info">
+                                    <div class="session-icon">
+                                        <i class="bi bi-laptop"></i>
+                                    </div>
+                                    <div class="session-details">
+                                        <h5>Windows PC - Chrome</h5>
+                                        <p>Current session • San Francisco, CA</p>
+                                    </div>
+                                </div>
+                                <span class="session-current">ACTIVE</span>
+                            </div>
+
+                            <div class="session-item">
+                                <div class="session-info">
+                                    <div class="session-icon">
+                                        <i class="bi bi-phone"></i>
+                                    </div>
+                                    <div class="session-details">
+                                        <h5>iPhone 13 - App</h5>
+                                        <p>Last active 2h ago • San Francisco, CA</p>
+                                    </div>
+                                </div>
+                                <button class="btn btn-sm btn-outline-danger">Revoke</button>
+                            </div>
+
+                            <div class="session-item">
+                                <div class="session-info">
+                                    <div class="session-icon">
+                                        <i class="bi bi-tablet"></i>
+                                    </div>
+                                    <div class="session-details">
+                                        <h5>iPad Pro - Safari</h5>
+                                        <p>Last active 1d ago • San Francisco, CA</p>
+                                    </div>
+                                </div>
+                                <button class="btn btn-sm btn-outline-danger">Revoke</button>
+                            </div>
+
+                            <button class="btn btn-outline-danger w-100 mt-3">
+                                <i class="bi bi-box-arrow-right me-2"></i>Logout All Devices
+                            </button>
+                        </div>
+
+                        <!-- Recent Activity -->
+                        <div class="form-section">
+                            <div class="section-header">
+                                <h3 class="section-title">
+                                    <i class="bi bi-clock-history text-custom"></i>
+                                    Recent Activity
+                                </h3>
+                                <a href="#" class="text-decoration-none small">View All</a>
+                            </div>
+
+                            <div class="activity-list">
+                                <div class="activity-item">
+                                    <div class="activity-icon login">
+                                        <i class="bi bi-box-arrow-in-right"></i>
+                                    </div>
+                                    <div class="activity-content">
+                                        <h5>Successful Login</h5>
+                                        <p>Chrome on Windows</p>
+                                    </div>
+                                    <span class="activity-time">Today<br>09:42 AM</span>
+                                </div>
+
+                                <div class="activity-item">
+                                    <div class="activity-icon update">
+                                        <i class="bi bi-pencil"></i>
+                                    </div>
+                                    <div class="activity-content">
+                                        <h5>Profile Updated</h5>
+                                        <p>Changed phone number</p>
+                                    </div>
+                                    <span class="activity-time">Yesterday<br>02:15 PM</span>
+                                </div>
+
+                                <div class="activity-item">
+                                    <div class="activity-icon security">
+                                        <i class="bi bi-shield-check"></i>
+                                    </div>
+                                    <div class="activity-content">
+                                        <h5>Password Changed</h5>
+                                        <p>Security update</p>
+                                    </div>
+                                    <span class="activity-time">Mar 25<br>10:30 AM</span>
+                                </div>
+
+                                <div class="activity-item">
+                                    <div class="activity-icon logout">
+                                        <i class="bi bi-box-arrow-right"></i>
+                                    </div>
+                                    <div class="activity-content">
+                                        <h5>Logged Out</h5>
+                                        <p>Session expired</p>
+                                    </div>
+                                    <span class="activity-time">Mar 24<br>06:00 PM</span>
+                                </div>
+
+                                <div class="activity-item">
+                                    <div class="activity-icon login">
+                                        <i class="bi bi-box-arrow-in-right"></i>
+                                    </div>
+                                    <div class="activity-content">
+                                        <h5>Successful Login</h5>
+                                        <p>Mobile app</p>
+                                    </div>
+                                    <span class="activity-time">Mar 24<br>08:30 AM</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+         
 </div>

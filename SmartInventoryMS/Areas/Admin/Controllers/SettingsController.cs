@@ -17,5 +17,16 @@ namespace SmartInventoryMS.Areas.Admin.Controllers
         {
             return View();
         }
+        public IActionResult RoleList()
+        {
+            return View();
+        }
+
+
+        public IActionResult Permission()
+        {
+            return View();
+        }
+
     }
 }

@@ -1,0 +1,189 @@
+﻿@{
+    ViewData["Title"] = "All Order List";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="dashboard-content">
+    <h3 class="page-title">All Order Data List</h3>
+    <div class="table-card">
+        <div class="table-header">
+            <div class="table-header-left">
+                <h3 class="table-title">All Order Data Table</h3>
+                       
+            </div>
+            <div class="table-header-right">
+                <a href="@Url.Action("NewOrderList", "Orders", new { area = "Admin" })" class="btn-add-new btn-sm" style="text-decoration:none;">
+                    <i class="bi bi-plus-lg"></i>
+                    Add New Order
+                </a>               
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table id="usersTable" class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>UserName</th>
+                        <th>Email</th>
+                        <th>IsActive</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <div class="user-avatar">JD</div>
+                                <span>John Doe</span>
+                            </div>
+                        </td>
+                        <td>john.doe@example.com</td>
+                        <td><span class="status-badge status-active">Active</span></td>
+                        <td>
+                            <button class="action-btn edit" onclick="editUser(1)">
+                                <i class="bi bi-pencil-fill"></i>
+                            </button>
+                            <button class="action-btn delete" onclick="deleteUser(1)">
+                                <i class="bi bi-trash-fill"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <div class="user-avatar">AJ</div>
+                                <span>Alice Johnson</span>
+                            </div>
+                        </td>
+                        <td>alice.johnson@example.com</td>
+                        <td><span class="status-badge status-active">Active</span></td>
+                        <td>
+                            <button class="action-btn edit" onclick="editUser(2)">
+                                <i class="bi bi-pencil-fill"></i>
+                            </button>
+                            <button class="action-btn delete" onclick="deleteUser(2)">
+                                <i class="bi bi-trash-fill"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <div class="user-avatar">BS</div>
+                                <span>Bob Smith</span>
+                            </div>
+                        </td>
+                        <td>bob.smith@example.com</td>
+                        <td><span class="status-badge status-inactive">Inactive</span></td>
+                        <td>
+                            <button class="action-btn edit" onclick="editUser(3)">
+                                <i class="bi bi-pencil-fill"></i>
+                            </button>
+                            <button class="action-btn delete" onclick="deleteUser(3)">
+                                <i class="bi bi-trash-fill"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <div class="user-avatar">CW</div>
+                                <span>Carol White</span>
+                            </div>
+                        </td>
+                        <td>carol.white@example.com</td>
+                        <td><span class="status-badge status-active">Active</span></td>
+                        <td>
+                            <button class="action-btn edit" onclick="editUser(4)">
+                                <i class="bi bi-pencil-fill"></i>
+                            </button>
+                            <button class="action-btn delete" onclick="deleteUser(4)">
+                                <i class="bi bi-trash-fill"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <div class="user-avatar">DB</div>
+                                <span>David Brown</span>
+                            </div>
+                        </td>
+                        <td>david.brown@example.com</td>
+                        <td><span class="status-badge status-active">Active</span></td>
+                        <td>
+                            <button class="action-btn edit" onclick="editUser(5)">
+                                <i class="bi bi-pencil-fill"></i>
+                            </button>
+                            <button class="action-btn delete" onclick="deleteUser(5)">
+                                <i class="bi bi-trash-fill"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <div class="user-avatar">EG</div>
+                                <span>Eva Green</span>
+                            </div>
+                        </td>
+                        <td>eva.green@example.com</td>
+                        <td><span class="status-badge status-inactive">Inactive</span></td>
+                        <td>
+                            <button class="action-btn edit" onclick="editUser(6)">
+                                <i class="bi bi-pencil-fill"></i>
+                            </button>
+                            <button class="action-btn delete" onclick="deleteUser(6)">
+                                <i class="bi bi-trash-fill"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <div class="user-avatar">FM</div>
+                                <span>Frank Miller</span>
+                            </div>
+                        </td>
+                        <td>frank.miller@example.com</td>
+                        <td><span class="status-badge status-active">Active</span></td>
+                        <td>
+                            <button class="action-btn edit" onclick="editUser(7)">
+                                <i class="bi bi-pencil-fill"></i>
+                            </button>
+                            <button class="action-btn delete" onclick="deleteUser(7)">
+                                <i class="bi bi-trash-fill"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>8</td>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <div class="user-avatar">GL</div>
+                                <span>Grace Lee</span>
+                            </div>
+                        </td>
+                        <td>grace.lee@example.com</td>
+                        <td><span class="status-badge status-active">Active</span></td>
+                        <td>
+                            <button class="action-btn edit" onclick="editUser(8)">
+                                <i class="bi bi-pencil-fill"></i>
+                            </button>
+                            <button class="action-btn delete" onclick="deleteUser(8)">
+                                <i class="bi bi-trash-fill"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

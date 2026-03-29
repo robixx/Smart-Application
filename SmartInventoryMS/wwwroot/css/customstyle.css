@@ -10,6 +10,7 @@
     --text-secondary: #666666;
     --text-muted: #999999;
     --border-color: #e0e0e0;
+    --danger-color: #ef4444;
 }
 
 * {
@@ -1502,3 +1503,10 @@ body {
         transform: translateY(-2px);
         box-shadow: 0 6px 20px rgba(92, 126, 34, 0.4);
     }
+
+
+
+.card{
+    border-radius:0.6rem !important;
+}
+
