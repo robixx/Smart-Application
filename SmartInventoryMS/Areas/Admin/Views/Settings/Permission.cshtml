@@ -8,448 +8,828 @@
         background-color: var(--primary);
         border-color: var(--primary);
     }
-    .role-icon{
-        width: 60px;
-        height: 60px;
-        border-radius: 15px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 28px;
-        color:var(--primary);
-    }
-    .role-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-}
-
-.role-badge {
-    background: #e4e6eb;
-    padding: 3px 8px;
-    border-radius: 6px;
-    font-size: 12px;
-    color: #333;
-}
-.stat-title {
-    cursor: pointer;             
-    padding: 2px 6px;            
-    border-radius: 4px;          
-    transition: background 0.2s; 
-}
-
-.stat-title:hover {
-     background-color: #688c27;  
-     color:white;
-}
-
-.delete-icon {
-    margin-left: 5px;
-    cursor: pointer;
-    font-weight: bold;
-    color: red;
-}
-.role-card {
-            border: none;
-            border-radius: 15px;
-            background: white;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
+    /* Permission Card Styles */
+        .permission-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 25px;
             overflow: hidden;
-            margin-bottom: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
 
-        .role-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-        }
-
-        /* Card Header - Role Name Only */
-        .card-header-custom {
-            padding: 20px;
+        .permission-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
         }
 
-        .role-title {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: #678b27;
-            margin: 0;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+        .permission-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-primary);
         }
 
-        .delete-btn {
-            background: rgba(255,255,255,0.2);
-            border: none;
-            color: white;
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
+        .permission-header-left {
             display: flex;
             align-items: center;
-            justify-content: center;
+            gap: 15px;
+        }
+
+        .permission-header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .role-select-wrapper {
+            position: relative;
+            min-width: 250px;
+        }
+
+        .role-select-wrapper::after {
+            content: '';
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-top: 6px solid var(--text-muted);
+            pointer-events: none;
+        }
+
+        .role-select {
+            width: 100%;
+            padding: 12px 40px 12px 16px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+            background: white;
             cursor: pointer;
             transition: all 0.3s ease;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
         }
 
-        .delete-btn:hover {
-            background: #dc3545;
-            transform: rotate(90deg);
+        .role-select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(92, 126, 34, 0.1);
         }
 
-        /* Card Body - Page List */
-        .card-body-custom {
-            padding: 0;
+        .role-select:hover {
+            border-color: var(--primary-light);
         }
 
-        .page-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 20px;
-            border-bottom: 1px solid #e9ecef;
-            transition: all 0.3s ease;
+        /* Permission Table Styles */
+        .permission-table-wrapper {
+            overflow-x: auto;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
         }
 
-        .page-item:hover {
+        .permission-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 800px;
+        }
+
+        .permission-table thead th {
             background: #f8f9fa;
+            padding: 16px 20px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--text-primary);
+            border-bottom: 2px solid var(--border-color);
+            white-space: nowrap;
         }
 
-        .page-item:last-child {
+        .permission-table thead th:first-child {
+            border-radius: 12px 0 0 0;
+        }
+
+        .permission-table thead th:last-child {
+            border-radius: 0 12px 0 0;
+        }
+
+        .permission-table tbody td {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            vertical-align: middle;
+        }
+
+        .permission-table tbody tr:last-child td {
             border-bottom: none;
         }
 
-        .page-info {
+        .permission-table tbody tr:last-child td:first-child {
+            border-radius: 0 0 0 12px;
+        }
+         .toggle-badge {
+            background: var(--primary);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-left: auto;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .toggle-badge:hover { background: var(--primary-dark); }
+        .toggle-badge.collapsed { background: var(--danger-color); }
+
+        .permission-table tbody tr:last-child td:last-child {
+            border-radius: 0 0 12px 0;
+        }
+
+        .permission-table tbody tr:hover td {
+            background: #def0bc;
+        }
+
+        .page-name-cell {
             display: flex;
             align-items: center;
             gap: 12px;
         }
 
         .page-icon {
-            width: 38px;
-            height: 38px;
-            border-radius: 8px;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1rem;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .page-icon.dashboard { background: rgba(92, 126, 34, 0.1); color: var(--primary); }
+        .page-icon.users { background: rgba(112, 161, 255, 0.1); color: #70a1ff; }
+        .page-icon.orders { background: rgba(255, 165, 2, 0.1); color: #ffa502; }
+        .page-icon.analytics { background: rgba(146, 64, 14, 0.1); color: #923c0e; }
+        .page-icon.revenue { background: rgba(46, 213, 115, 0.1); color: #2ed573; }
+        .page-icon.messages { background: rgba(255, 71, 87, 0.1); color: #ff4757; }
+        .page-icon.projects { background: rgba(155, 89, 182, 0.1); color: #9b59b6; }
+        .page-icon.settings { background: rgba(52, 73, 94, 0.1); color: #34495e; }
+        .page-icon.inventory { background: rgba(241, 196, 15, 0.1); color: #f1c40f; }
+        .page-icon.transactions { background: rgba(26, 188, 156, 0.1); color: #1abc9c; }
+        .page-icon.suppliers { background: rgba(230, 126, 34, 0.1); color: #e67e22; }
+        .page-icon.reports { background: rgba(155, 89, 182, 0.1); color: #9b59b6; }
+        .page-icon.roles { background: rgba(52, 152, 219, 0.1); color: #3498db; }
+
+        .page-info {
+            display: flex;
+            flex-direction: column;
         }
 
         .page-name {
-            font-size: 0.95rem;
             font-weight: 600;
-            color: #2d3748;
-            margin: 0;
-            text-transform: capitalize;
+            color: var(--text-primary);
+            margin-bottom: 2px;
         }
 
-        .page-path {
-            font-size: 0.75rem;
-            color: #6c757d;
-            font-family: 'Courier New', monospace;
+        .page-description {
+            font-size: 12px;
+            color: var(--text-muted);
         }
 
-        /* Badge List */
-        .badge-list {
+        /* Custom Checkbox Styles */
+        .permission-checkbox {
             display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .checkbox-wrapper {
+            position: relative;
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+        }
+
+        .checkbox-wrapper input[type="checkbox"] {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+        .checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 24px;
+            width: 24px;
+            background-color: #fff;
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .checkmark::after {
+            content: '';
+            position: absolute;
+            display: none;
+            left: 7px;
+            top: 3px;
+            width: 6px;
+            height: 11px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+
+        .checkbox-wrapper:hover .checkmark {
+            border-color: var(--primary);
+            background-color: rgba(92, 126, 34, 0.05);
+        }
+
+        .checkbox-wrapper input:checked ~ .checkmark {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .checkbox-wrapper input:checked ~ .checkmark::after {
+            display: block;
+        }
+
+        .checkbox-wrapper input:disabled ~ .checkmark {
+            background-color: #f0f0f0;
+            border-color: #ddd;
+            cursor: not-allowed;
+        }
+
+        .checkbox-wrapper input:disabled ~ .checkmark::after {
+            border-color: #ccc;
+        }
+
+        /* Permission Actions */
+        .permission-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 25px;
             flex-wrap: wrap;
-            gap: 5px;
-            justify-content: flex-end;
         }
 
-        .page-badge {
-            padding: 3px 8px;
-            border-radius: 12px;
-            font-size: 0.65rem;
-            font-weight: 500;
-        }
-
-        /* Role Colors */
-       /*  .card-admin .card-header-custom { background: #43600e; } */
-        .card-admin .page-icon { background: rgba(102, 126, 234, 0.1); color: #667eea; }
-        .card-admin .badge-view { background: #dbeafe; color: #2563eb; }
-        .card-admin .badge-add { background: #d1fae5; color: #059669; }
-        .card-admin .badge-edit { background: #fef3c7; color: #d97706; }
-        .card-admin .badge-delete { background: #fee2e2; color: #dc2626; }
-
-        .card-manager .card-header-custom { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
-        .card-manager .page-icon { background: rgba(240, 147, 251, 0.1); color: #f093fb; }
-        .card-manager .badge-view { background: #fce7f3; color: #db2777; }
-        .card-manager .badge-add { background: #d1fae5; color: #059669; }
-        .card-manager .badge-edit { background: #fef3c7; color: #d97706; }
-
-        .card-user .card-header-custom { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
-        .card-user .page-icon { background: rgba(79, 172, 254, 0.1); color: #4facfe; }
-        .card-user .badge-view { background: #dbeafe; color: #2563eb; }
-
-        .card-sales .card-header-custom { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
-        .card-sales .page-icon { background: rgba(67, 233, 123, 0.1); color: #43e97b; }
-        .card-sales .badge-view { background: #d1fae5; color: #059669; }
-        .card-sales .badge-add { background: #dbeafe; color: #2563eb; }
-        .card-sales .badge-edit { background: #fef3c7; color: #d97706; }
-
-        /* Page Count Badge in Header */
-        .page-count {
-            background: rgba(255,255,255,0.2);
+        .btn-save {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
             color: white;
-            padding: 4px 12px;
-            border-radius: 15px;
-            font-size: 0.8rem;
-            margin-left: 10px;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 7px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(92, 126, 34, 0.3);
+        }
+
+        .btn-save:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(92, 126, 34, 0.4);
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            color: white;
+        }
+
+        .btn-reset {
+            background: #f0f0f0;
+            color: var(--text-secondary);
+            border: none;
+            padding: 4px 18px;
+            border-radius: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-reset:hover {
+            background: #e0e0e0;
+            color: var(--text-primary);
+        }
+
+        .btn-select-all {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-select-all:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-deselect-all {
+            background: transparent;
+            color: var(--text-secondary);
+            border: 2px solid var(--border-color);
+            padding: 4px 18px;
+            border-radius: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-deselect-all:hover {
+            background: #f0f0f0;
+            color: var(--text-primary);
+            border-color: var(--text-muted);
+        }
+
+        /* Select All Header Checkbox */
+        .select-all-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Legend */
+        .permission-legend {
+            display: flex;
+            gap: 25px;
+            margin-top: 20px;
+            padding: 15px 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .legend-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        .legend-icon.granted {
+            background: var(--primary);
+            color: white;
+        }
+
+        .legend-icon.denied {
+            background: #fff;
+            border: 2px solid var(--border-color);
+            color: transparent;
+        }
+
+        /* Toast Notification */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+        }
+
+        .custom-toast {
+            background: white;
+            border-radius: 12px;
+            padding: 16px 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            animation: slideIn 0.3s ease;
+            margin-bottom: 10px;
+        }
+
+        .custom-toast.success {
+            border-left: 4px solid #2ed573;
+        }
+
+        .custom-toast.error {
+            border-left: 4px solid #ff4757;
+        }
+
+        .custom-toast.info {
+            border-left: 4px solid #70a1ff;
+        }
+
+        .toast-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .toast-icon.success {
+            background: rgba(46, 213, 115, 0.15);
+            color: #2ed573;
+        }
+
+        .toast-icon.error {
+            background: rgba(255, 71, 87, 0.15);
+            color: #ff4757;
+        }
+
+        .toast-icon.info {
+            background: rgba(112, 161, 255, 0.15);
+            color: #70a1ff;
+        }
+
+        .toast-content {
+            flex: 1;
+        }
+
+        .toast-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 2px;
+        }
+
+        .toast-message {
+            font-size: 13px;
+            color: var(--text-muted);
         }
 </style>
 
-<div class="dashboard-content">
-    <h3 class="page-title">Role Wise Page Permission</h3>
-    <div class="card">
-        <div class="card-body d-flex justify-content-between align-items-center">           
-                <h3 class="table-title">Role Data List</h3>                     
-                <button class="btn-add-new btn-sm" onclick="openModal()">
-                    <i class="bi bi-plus-lg"></i>
-                    Add New Role
-                </button>         
-        </div>       
-    </div> 
-    <div class="stats-grid mt-4">
-        <!-- Super Admin -->
-        <div class="stat-card">
-            <div class="d-flex align-items-center gap-2 mb-2">
-                <div class="role-icon">
-                    <i class="bi bi-person-badge"></i>
-                </div>
-                <div class="stat-title" onclick="assignUser('Super Admin')">Super Admin</div>
-            </div>
-            <div class="stat-label mb-2">Person Name</div>
+    <div class="dashboard-content">
+            <h1 class="page-title">Permission Management</h1>
 
-            <div class="role-tags">
-                <span class="role-badge">Md. Muhaiminul Islam Naim <i class="delete-icon" onclick="deleteBadge(this)">×</i></span>
-                <span class="role-badge">Abu Hena Md. Mahfuz Ul Latif <i class="delete-icon" onclick="deleteBadge(this)">×</i></span>
+            <div class="permission-card">
+                <div class="permission-header">
+                    <div class="permission-header-left"><h3 class="permission-title">Role Permissions</h3></div>
+                    <div class="permission-header-right">
+                        <div class="role-select-wrapper">
+                            <select class="role-select" id="roleSelect" onchange="loadPermissions()">
+                                <option value="">Select a role...</option>
+                                <option value="administrator">Administrator</option>
+                                <option value="manager">Manager</option>
+                                <option value="staff">Staff</option>
+                                <option value="viewer">Viewer</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="permission-table-wrapper">
+                    <table class="permission-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 40%;">Page / Module</th>
+                                <th style="width: 15%; text-align: center;">View</th>
+                                <th style="width: 15%; text-align: center;">Create</th>
+                                <th style="width: 15%; text-align: center;">Edit</th>
+                                <th style="width: 15%; text-align: center;">Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody id="permissionTableBody">
+                            <tr>
+                                <td colspan="5" class="text-center text-muted py-4">
+                                    <i class="bi bi-info-circle" style="font-size: 24px;"></i>
+                                    <p class="mt-2 mb-0">Please select a role to view and manage permissions</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="permission-actions" id="permissionActions" style="display: none;">
+                    <button class="btn-save" onclick="savePermissions()"><i class="bi bi-check-lg"></i>Save Permissions</button>
+                    <button class="btn-reset" onclick="resetPermissions()"><i class="bi bi-arrow-counterclockwise"></i>Reset to Default</button>
+                </div>
             </div>
         </div>
 
-        <!-- Admin -->
-        <div class="stat-card">
-            <div class="d-flex align-items-center gap-2 mb-2">
-                <div class="role-icon">
-                    <i class="bi bi-person"></i>
-                </div>
-                <div class="stat-title" onclick="assignUser('Admin')">Admin</div>
-            </div>
-            <div class="stat-label">Person Name</div>
-        </div>
-
-        <!-- User -->
-        <div class="stat-card">
-            <div class="d-flex align-items-center gap-2 mb-2">
-                <div class="role-icon">
-                    <i class="bi bi-people"></i>
-                </div>
-                <div class="stat-title" onclick="assignUser('User')">User</div>
-            </div>
-            <div class="stat-label mb-2">Person Name</div>
-
-            <div class="role-tags">
-                <span class="role-badge">Md. Shoriful Islam Robi <i class="delete-icon" onclick="deleteBadge(this)">×</i></span>
-                <span class="role-badge">Md. Shafiqul Islam <i class="delete-icon" onclick="deleteBadge(this)">×</i></span>
-            </div>
-        </div>
-
-        <!-- Manager -->
-        <div class="stat-card">
-            <div class="d-flex align-items-center gap-2 mb-2">
-                <div class="role-icon">
-                    <i class="bi bi-person-check"></i>
-                </div>
-                <div class="stat-title" onclick="assignUser('Manager')">Manager</div>
-            </div>
-            <div class="stat-label">Person Name</div>
-        </div> 
-
-    </div>
+  <div class="toast-container" id="toastContainer"></div>
 
 
-     <div class="row g-4">
+   <script>
+        const permissionData = {
+            administrator: {
+                name: 'Administrator',
+                permissions: {
+                    dashboard: { view: true, create: true, edit: true, delete: true },
+                    inventory: { view: true, create: true, edit: true, delete: true },
+                    orders: { view: true, create: true, edit: true, delete: true, hasSubmenu: true,
+                        submenus: { allOrders: { view: true, create: true, edit: true, delete: true }, newOrder: { view: true, create: true, edit: true, delete: true }, pending: { view: true, create: true, edit: true, delete: true }, completed: { view: true, create: true, edit: true, delete: true } }
+                    },
+                    transactions: { view: true, create: true, edit: true, delete: true },
+                    suppliers: { view: true, create: true, edit: true, delete: true },
+                    reports: { view: true, create: true, edit: true, delete: true },
+                    users: { view: true, create: true, edit: true, delete: true },
+                    roles: { view: true, create: true, edit: true, delete: true },
+                    settings: { view: true, create: true, edit: true, delete: true },
+                    analytics: { view: true, create: true, edit: true, delete: true },
+                    revenue: { view: true, create: true, edit: true, delete: true, hasSubmenu: true,
+                        submenus: { overview: { view: true, create: true, edit: true, delete: true }, payments: { view: true, create: true, edit: true, delete: true }, invoices: { view: true, create: true, edit: true, delete: true }, reports: { view: true, create: true, edit: true, delete: true } }
+                    },
+                    messages: { view: true, create: true, edit: true, delete: true },
+                    projects: { view: true, create: true, edit: true, delete: true }
+                }
+            },
+            manager: {
+                name: 'Manager',
+                permissions: {
+                    dashboard: { view: true, create: true, edit: true, delete: false },
+                    inventory: { view: true, create: true, edit: true, delete: true },
+                    orders: { view: true, create: true, edit: true, delete: false, hasSubmenu: true,
+                        submenus: { allOrders: { view: true, create: true, edit: true, delete: false }, newOrder: { view: true, create: true, edit: true, delete: false }, pending: { view: true, create: true, edit: true, delete: false }, completed: { view: true, create: true, edit: false, delete: false } }
+                    },
+                    transactions: { view: true, create: true, edit: true, delete: false },
+                    suppliers: { view: true, create: true, edit: true, delete: false },
+                    reports: { view: true, create: true, edit: false, delete: false },
+                    users: { view: true, create: false, edit: false, delete: false },
+                    roles: { view: true, create: false, edit: false, delete: false },
+                    settings: { view: true, create: false, edit: false, delete: false },
+                    analytics: { view: true, create: true, edit: true, delete: false },
+                    revenue: { view: true, create: true, edit: true, delete: false, hasSubmenu: true,
+                        submenus: { overview: { view: true, create: true, edit: true, delete: false }, payments: { view: true, create: true, edit: true, delete: false }, invoices: { view: true, create: true, edit: false, delete: false }, reports: { view: true, create: false, edit: false, delete: false } }
+                    },
+                    messages: { view: true, create: true, edit: true, delete: true },
+                    projects: { view: true, create: true, edit: true, delete: false }
+                }
+            },
+            staff: {
+                name: 'Staff',
+                permissions: {
+                    dashboard: { view: true, create: false, edit: false, delete: false },
+                    inventory: { view: true, create: true, edit: true, delete: false },
+                    orders: { view: true, create: true, edit: true, delete: false, hasSubmenu: true,
+                        submenus: { allOrders: { view: true, create: false, edit: false, delete: false }, newOrder: { view: true, create: true, edit: false, delete: false }, pending: { view: true, create: false, edit: false, delete: false }, completed: { view: true, create: false, edit: false, delete: false } }
+                    },
+                    transactions: { view: true, create: true, edit: false, delete: false },
+                    suppliers: { view: true, create: false, edit: false, delete: false },
+                    reports: { view: false, create: false, edit: false, delete: false },
+                    users: { view: false, create: false, edit: false, delete: false },
+                    roles: { view: false, create: false, edit: false, delete: false },
+                    settings: { view: false, create: false, edit: false, delete: false },
+                    analytics: { view: false, create: false, edit: false, delete: false },
+                    revenue: { view: false, create: false, edit: false, delete: false, hasSubmenu: true,
+                        submenus: { overview: { view: false, create: false, edit: false, delete: false }, payments: { view: false, create: false, edit: false, delete: false }, invoices: { view: false, create: false, edit: false, delete: false }, reports: { view: false, create: false, edit: false, delete: false } }
+                    },
+                    messages: { view: true, create: true, edit: false, delete: false },
+                    projects: { view: true, create: false, edit: false, delete: false }
+                }
+            },
+            viewer: {
+                name: 'Viewer',
+                permissions: {
+                    dashboard: { view: true, create: false, edit: false, delete: false },
+                    inventory: { view: true, create: false, edit: false, delete: false },
+                    orders: { view: true, create: false, edit: false, delete: false, hasSubmenu: true,
+                        submenus: { allOrders: { view: true, create: false, edit: false, delete: false }, newOrder: { view: true, create: false, edit: false, delete: false }, pending: { view: true, create: false, edit: false, delete: false }, completed: { view: true, create: false, edit: false, delete: false } }
+                    },
+                    transactions: { view: true, create: false, edit: false, delete: false },
+                    suppliers: { view: true, create: false, edit: false, delete: false },
+                    reports: { view: true, create: false, edit: false, delete: false },
+                    users: { view: false, create: false, edit: false, delete: false },
+                    roles: { view: false, create: false, edit: false, delete: false },
+                    settings: { view: false, create: false, edit: false, delete: false },
+                    analytics: { view: false, create: false, edit: false, delete: false },
+                    revenue: { view: false, create: false, edit: false, delete: false, hasSubmenu: true,
+                        submenus: { overview: { view: false, create: false, edit: false, delete: false }, payments: { view: false, create: false, edit: false, delete: false }, invoices: { view: false, create: false, edit: false, delete: false }, reports: { view: false, create: false, edit: false, delete: false } }
+                    },
+                    messages: { view: false, create: false, edit: false, delete: false },
+                    projects: { view: true, create: false, edit: false, delete: false }
+                }
+            }
+        };
+
+        const pages = [
+            { id: 'dashboard', name: 'Dashboard', icon: 'bi-grid-1x2', iconClass: 'dashboard', description: 'Main dashboard overview' },
+            { id: 'inventory', name: 'Inventory', icon: 'bi-box', iconClass: 'inventory', description: 'Manage inventory items' },
+            { id: 'orders', name: 'Orders', icon: 'bi-cart3', iconClass: 'orders', description: 'Manage orders', hasSubmenu: true,
+                submenus: [{ id: 'allOrders', name: 'All Orders', icon: 'bi-list-ul' }, { id: 'newOrder', name: 'New Order', icon: 'bi-plus-circle' }, { id: 'pending', name: 'Pending', icon: 'bi-clock-history' }, { id: 'completed', name: 'Completed', icon: 'bi-check2-circle' }]
+            },
+            { id: 'transactions', name: 'Transactions', icon: 'bi-arrow-left-right', iconClass: 'transactions', description: 'Track all transactions' },
+            { id: 'suppliers', name: 'Suppliers', icon: 'bi-people', iconClass: 'suppliers', description: 'Manage supplier contacts' },
+            { id: 'reports', name: 'Reports', icon: 'bi-graph-up', iconClass: 'reports', description: 'View and generate reports' },
+            { id: 'users', name: 'Users', icon: 'bi-person-badge', iconClass: 'users', description: 'Manage user accounts' },
+            { id: 'roles', name: 'Roles', icon: 'bi-shield-check', iconClass: 'roles', description: 'Configure role permissions' },
+            { id: 'settings', name: 'Settings', icon: 'bi-gear', iconClass: 'settings', description: 'System configuration' },
+            { id: 'analytics', name: 'Analytics', icon: 'bi-graph-up-arrow', iconClass: 'analytics', description: 'Analytics and insights' },
+            { id: 'revenue', name: 'Revenue', icon: 'bi-wallet', iconClass: 'revenue', description: 'Revenue tracking', hasSubmenu: true,
+                submenus: [{ id: 'overview', name: 'Overview', icon: 'bi-graph-up' }, { id: 'payments', name: 'Payments', icon: 'bi-currency-dollar' }, { id: 'invoices', name: 'Invoices', icon: 'bi-receipt' }, { id: 'reports', name: 'Reports', icon: 'bi-file-earmark-text' }]
+            },
+            { id: 'messages', name: 'Messages', icon: 'bi-chat-dots', iconClass: 'messages', description: 'Internal messaging' },
+            { id: 'projects', name: 'Projects', icon: 'bi-folder', iconClass: 'projects', description: 'Project management' }
+        ];
+
+        let currentRole = null;
+        let expandedMenus = {};
+
+        function loadPermissions() {
+            const roleSelect = document.getElementById('roleSelect');
+            const role = roleSelect.value;
+            const tableBody = document.getElementById('permissionTableBody');
+            const actions = document.getElementById('permissionActions');
+
+            if (!role) {
+                tableBody.innerHTML = '<tr><td colspan="5" class="text-center text-muted py-4"><i class="bi bi-info-circle" style="font-size: 24px;"></i><p class="mt-2 mb-0">Please select a role to view and manage permissions</p></td></tr>';
+                actions.style.display = 'none';
+                currentRole = null;
+                expandedMenus = {};
+                return;
+            }
+
+            currentRole = role;
+            expandedMenus = {};
+            const permissions = permissionData[role].permissions;
+            let html = '';
+
+            pages.forEach(page => {
+                const perms = permissions[page.id];
+                const hasSubmenu = page.hasSubmenu && perms.hasSubmenu;
+                
+                // Parent Row
+                html += '<tr class="parent-row" data-page="' + page.id + '">';
+                html += '<td><div class="page-name-cell"><div class="page-icon ' + page.iconClass + '"><i class="bi ' + page.icon + '"></i></div><div class="page-info"><span class="page-name">' + page.name + '</span><span class="page-description">' + page.description + '</span></div>';
+                
+                if (hasSubmenu) {
+                    const isExpanded = expandedMenus[page.id] === true;
+                    html += '<span class="toggle-badge ' + (isExpanded ? '' : 'collapsed') + '" id="toggle-' + page.id + '" onclick="toggleSubmenus(\'' + page.id + '\')"><i class="bi ' + (isExpanded ? 'bi-chevron-up' : 'bi-chevron-down') + '"></i> ' + (isExpanded ? 'Hide' : 'Show') + ' Submenu</span>';
+                }
+                html += '</div></td>';
+                html += '<td><div class="permission-checkbox"><label class="checkbox-wrapper"><input type="checkbox" id="' + page.id + '_view" ' + (perms.view ? 'checked' : '') + ' onchange="updatePermission(\'' + page.id + '\', \'view\', this.checked)' + (hasSubmenu ? '; toggleSubmenusVisibility(\'' + page.id + '\', this.checked)' : '') + '"><span class="checkmark"></span></label></div></td>';
+                html += '<td><div class="permission-checkbox"><label class="checkbox-wrapper"><input type="checkbox" id="' + page.id + '_create" ' + (perms.create ? 'checked' : '') + ' onchange="updatePermission(\'' + page.id + '\', \'create\', this.checked)" ' + (!perms.view ? 'disabled' : '') + '><span class="checkmark"></span></label></div></td>';
+                html += '<td><div class="permission-checkbox"><label class="checkbox-wrapper"><input type="checkbox" id="' + page.id + '_edit" ' + (perms.edit ? 'checked' : '') + ' onchange="updatePermission(\'' + page.id + '\', \'edit\', this.checked)" ' + (!perms.view ? 'disabled' : '') + '><span class="checkmark"></span></label></div></td>';
+                html += '<td><div class="permission-checkbox"><label class="checkbox-wrapper"><input type="checkbox" id="' + page.id + '_delete" ' + (perms.delete ? 'checked' : '') + ' onchange="updatePermission(\'' + page.id + '\', \'delete\', this.checked)" ' + (!perms.view ? 'disabled' : '') + '><span class="checkmark"></span></label></div></td>';
+                html += '</tr>';
+
+                // Submenu Section
+                if (hasSubmenu) {
+                    const isExpanded = expandedMenus[page.id] === true;
+                    html += '<tr class="submenu-section" id="submenu-' + page.id + '" style="' + (!isExpanded ? 'display: none;' : '') + '">';
+                    html += '<td colspan="5" style="padding: 0;"><div style="padding-left: 60px; padding-top: 8px; padding-bottom: 8px; border-left: 3px solid var(--primary); margin-left: 20px;"><strong style="color: var(--primary); font-size: 12px; text-transform: uppercase; letter-spacing: 1px;">Submenu Items</strong></div>';
+                    
+                    page.submenus.forEach(submenu => {
+                        const subPerms = perms.submenus[submenu.id];
+                        html += '<tr class="submenu-item" style="' + (!isExpanded ? 'display: none;' : '') + '" data-parent="' + page.id + '" data-submenu="' + submenu.id + '">';
+                        html += '<td style="padding-left: 100px;"><div class="page-name-cell"><div class="page-icon ' + page.iconClass + '" style="opacity: 0.6;"><i class="bi ' + submenu.icon + '"></i></div><span class="submenu-label">' + submenu.name + '</span></div></td>';
+                        html += '<td><div class="permission-checkbox"><label class="checkbox-wrapper"><input type="checkbox" id="' + submenu.id + '_view" ' + (subPerms.view ? 'checked' : '') + ' onchange="updateSubmenuPermission(\'' + page.id + '\', \'' + submenu.id + '\', \'view\', this.checked)" ' + (!perms.view ? 'disabled' : '') + '><span class="checkmark"></span></label></div></td>';
+                        html += '<td><div class="permission-checkbox"><label class="checkbox-wrapper"><input type="checkbox" id="' + submenu.id + '_create" ' + (subPerms.create ? 'checked' : '') + ' onchange="updateSubmenuPermission(\'' + page.id + '\', \'' + submenu.id + '\', \'create\', this.checked)" ' + (!perms.view ? 'disabled' : '') + '><span class="checkmark"></span></label></div></td>';
+                        html += '<td><div class="permission-checkbox"><label class="checkbox-wrapper"><input type="checkbox" id="' + submenu.id + '_edit" ' + (subPerms.edit ? 'checked' : '') + ' onchange="updateSubmenuPermission(\'' + page.id + '\', \'' + submenu.id + '\', \'edit\', this.checked)" ' + (!perms.view ? 'disabled' : '') + '><span class="checkmark"></span></label></div></td>';
+                        html += '<td><div class="permission-checkbox"><label class="checkbox-wrapper"><input type="checkbox" id="' + submenu.id + '_delete" ' + (subPerms.delete ? 'checked' : '') + ' onchange="updateSubmenuPermission(\'' + page.id + '\', \'' + submenu.id + '\', \'delete\', this.checked)" ' + (!perms.view ? 'disabled' : '') + '><span class="checkmark"></span></label></div></td>';
+                        html += '</tr>';
+                    });
+                    
+                    html += '</td></tr>';
+                }
+            });
+
+            tableBody.innerHTML = html;
+            actions.style.display = 'flex';
+            showToast('info', 'Permissions Loaded', 'Loaded permissions for ' + permissionData[role].name + ' role');
+        }
+
+      function toggleSubmenus(pageId) {
+            const isCurrentlyExpanded = expandedMenus[pageId] === true;
+            expandedMenus[pageId] = !isCurrentlyExpanded;
             
-            <!-- Admin Role -->
-            <div class="col-md-6 col-lg-6">
-                <div class="role-card card-admin">
-                    <div class="card-header-custom">
-                        <div class="d-flex align-items-center">
-                            <h5 class="role-title">
-                                <i class="bi bi-shield-lock"></i>
-                                Admin
-                            </h5>
-                            <span class="page-count">4 Pages</span>
-                        </div>
-                        <button class="delete-btn" title="Delete Role">
-                            <i class="bi bi-trash3"></i>
-                        </button>
-                    </div>
-                    
-                    <div class="card-body-custom">
-                        
-                        <div class="page-item">
-                            <div class="page-info">
-                                <div class="page-icon">
-                                    <i class="bi bi-speedometer2"></i>
-                                </div>
-                                <div>
-                                    <p class="page-name">Dashboard</p>
-                                    <small class="page-path">/admin/dashboard</small>
-                                </div>
-                            </div>
-                            <div class="badge-list">
-                                <span class="page-badge badge-view">View</span>
-                                <span class="page-badge badge-add">Add</span>
-                                <span class="page-badge badge-edit">Edit</span>
-                                <span class="page-badge badge-delete">Delete</span>
-                            </div>
-                        </div>
-
-                        <div class="page-item">
-                            <div class="page-info">
-                                <div class="page-icon">
-                                    <i class="bi bi-people"></i>
-                                </div>
-                                <div>
-                                    <p class="page-name">Userlist</p>
-                                    <small class="page-path">/admin/userlist</small>
-                                </div>
-                            </div>
-                            <div class="badge-list">
-                                <span class="page-badge badge-view">View</span>
-                                <span class="page-badge badge-add">Add</span>
-                                <span class="page-badge badge-edit">Edit</span>
-                                <span class="page-badge badge-delete">Delete</span>
-                            </div>
-                        </div>
-
-                        <div class="page-item">
-                            <div class="page-info">
-                                <div class="page-icon">
-                                    <i class="bi bi-cart3"></i>
-                                </div>
-                                <div>
-                                    <p class="page-name">Orders</p>
-                                    <small class="page-path">/admin/orders</small>
-                                </div>
-                            </div>
-                            <div class="badge-list">
-                                <span class="page-badge badge-view">View</span>
-                                <span class="page-badge badge-edit">Edit</span>
-                                <span class="page-badge badge-delete">Delete</span>
-                            </div>
-                        </div>
-
-                        <div class="page-item">
-                            <div class="page-info">
-                                <div class="page-icon">
-                                    <i class="bi bi-gear"></i>
-                                </div>
-                                <div>
-                                    <p class="page-name">Settings</p>
-                                    <small class="page-path">/admin/settings</small>
-                                </div>
-                            </div>
-                            <div class="badge-list">
-                                <span class="page-badge badge-view">View</span>
-                                <span class="page-badge badge-edit">Edit</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-</div>
-
-
-
-       
- 
-
-
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-top">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modalTitle">Add New Role</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="userForm">
-                    
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-add-new" onclick="saveUser()">Save Role</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-       function openModal() {
-            const form = document.getElementById('userForm');
-            form.innerHTML = '';             
-            const roleFields = document.createElement('div');
-                roleFields.id = 'roleFields';
-                roleFields.classList.add('modal-section');
-                roleFields.innerHTML = `
-                    <input type="hidden" id="roleId">
-                    <div class="form-group mb-3">
-                        <label class="form-label" for="userRole">Role Name</label>
-                        <input type="text" class="form-control" id="userRole" placeholder="Enter role name" required>
-                    </div>
-                    <div class="form-group mb-3">
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="isActive" checked>
-                            <label class="form-check-label" for="isActive">Active</label>
-                        </div>
-                    </div>
-                `;
-            form.appendChild(roleFields);
-
-            document.getElementById('modalTitle').innerText = "Add New Role";
-
-            $('#exampleModal').modal('show'); 
-        }
-
-        function assignUser(data) {
-            const form = document.getElementById('userForm');
-            form.innerHTML = '';             
-            const assignFields = document.createElement('div');
-            assignFields.id = 'assignFields';
-            assignFields.classList.add('modal-section');
-            assignFields.innerHTML = `
-                <label class="form-label" for="userName">User </label>
-                <select class="form-control">
-                    <option> Select User </option>
-                    <option>John</option>
-                    <option>Rahim</option>
-                    <option>Karim</option>
-                </select>
-            `;
-            form.appendChild(assignFields);
-
-            document.getElementById('modalTitle').innerText = data;
-            $('#exampleModal').modal('show');
-        }
-
-
-        function deleteBadge(el) {
-            const badge = el.parentElement; // get the <span>
-            const badgeName = badge.textContent.replace('×', '').trim(); // get badge text
-            const confirmDelete = confirm(`Are you sure you want to delete "${badgeName}"?`);
-
-            if (confirmDelete) {
-                badge.remove(); // remove badge from DOM
+            const badge = document.getElementById('toggle-' + pageId);
+            const submenuSection = document.getElementById('submenu-' + pageId);
+            const submenuItems = document.querySelectorAll('tr[data-parent="' + pageId + '"]');
+            
+            if (!isCurrentlyExpanded) {
+                // Expand
+                if (badge) {
+                    badge.classList.remove('collapsed');
+                    badge.innerHTML = '<i class="bi bi-chevron-up"></i> Hide Submenu';
+                }
+                if (submenuSection) submenuSection.style.display = '';
+                submenuItems.forEach(item => item.style.display = '');
+            } else {
+                // Collapse
+                if (badge) {
+                    badge.classList.add('collapsed');
+                    badge.innerHTML = '<i class="bi bi-chevron-down"></i> Show Submenu';
+                }
+                if (submenuSection) submenuSection.style.display = 'none';
+                submenuItems.forEach(item => item.style.display = 'none');
             }
         }
-</script>
+
+        function toggleSubmenusVisibility(pageId, isVisible) {
+            expandedMenus[pageId] = isVisible;
+            
+            const badge = document.getElementById('toggle-' + pageId);
+            const submenuSection = document.getElementById('submenu-' + pageId);
+            const submenuItems = document.querySelectorAll('tr[data-parent="' + pageId + '"]');
+            
+            if (isVisible) {
+                if (badge) {
+                    badge.classList.remove('collapsed');
+                    badge.innerHTML = '<i class="bi bi-chevron-up"></i> Hide Submenu';
+                }
+                if (submenuSection) submenuSection.style.display = '';
+                submenuItems.forEach(item => item.style.display = '');
+            } else {
+                if (badge) {
+                    badge.classList.add('collapsed');
+                    badge.innerHTML = '<i class="bi bi-chevron-down"></i> Show Submenu';
+                }
+                if (submenuSection) submenuSection.style.display = 'none';
+                submenuItems.forEach(item => item.style.display = 'none');
+            }
+
+            // Enable/disable parent action checkboxes
+            if (currentRole && permissionData[currentRole]) {
+                ['create', 'edit', 'delete'].forEach(action => {
+                    const checkbox = document.getElementById(pageId + '_' + action);
+                    if (checkbox) checkbox.disabled = !isVisible;
+                });
+                
+                // Enable/disable submenu checkboxes
+                submenuItems.forEach(item => {
+                    const checkboxes = item.querySelectorAll('input[type="checkbox"]');
+                    checkboxes.forEach(cb => cb.disabled = !isVisible);
+                });
+            }
+        }
+
+        function updatePermission(pageId, action, checked) {
+            if (currentRole && permissionData[currentRole]) {
+                permissionData[currentRole].permissions[pageId][action] = checked;
+            }
+        }
+
+        function updateSubmenuPermission(pageId, submenuId, action, checked) {
+            if (currentRole && permissionData[currentRole]) {
+                permissionData[currentRole].permissions[pageId].submenus[submenuId][action] = checked;
+            }
+        }
+
+        function savePermissions() {
+            if (!currentRole) {
+                showToast('error', 'Error', 'Please select a role first');
+                return;
+            }
+            console.log('Saving permissions for:', currentRole, permissionData[currentRole].permissions);
+            showToast('success', 'Saved!', 'Permissions for ' + permissionData[currentRole].name + ' have been saved successfully');
+        }
+
+        function resetPermissions() {
+            if (!currentRole) {
+                showToast('error', 'Error', 'Please select a role first');
+                return;
+            }
+            loadPermissions();
+            showToast('info', 'Reset', 'Permissions for ' + permissionData[currentRole].name + ' have been reset to default');
+        }
+
+        function showToast(type, title, message) {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = 'custom-toast ' + type;
+            
+            let iconClass = '';
+            if (type === 'success') iconClass = 'bi bi-check-lg';
+            else if (type === 'error') iconClass = 'bi bi-x-lg';
+            else iconClass = 'bi bi-info-lg';
+
+            toast.innerHTML = '<div class="toast-icon ' + type + '"><i class="bi ' + iconClass + '"></i></div><div class="toast-content"><div class="toast-title">' + title + '</div><div class="toast-message">' + message + '</div></div>';
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.animation = 'slideOut 0.3s ease forwards';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+       
+
+   </script>
