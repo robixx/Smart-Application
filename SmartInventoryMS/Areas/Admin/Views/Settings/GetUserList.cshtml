@@ -17,7 +17,7 @@
             white-space: nowrap;
         }
     .table tbody tr:hover td {
-        background: #def0bc;
+        background:#e3f0ff;
     }
     .form-check-input:checked {
         background-color: var(--primary);
@@ -72,10 +72,10 @@
                                 </span>
                             </td>
                             <td>
-                                <button class="action-btn edit" onclick="editUser(@item.UserId)">
+                                <button class="action-btn edit"  onclick="editUser(@item.UserId,'@item.UserName','@item.Email', '@item.LoginUserName','@item.IsActive')">
                                     <i class="bi bi-pencil-fill"></i>
                                 </button>
-                                <button class="action-btn delete" onclick="deleteUser(@item.UserId)">
+                                <button class="action-btn delete"  onclick="deleteUser(@item.UserId)">
                                     <i class="bi bi-trash-fill"></i>
                                 </button>
                             </td>
@@ -207,19 +207,19 @@
             //refreshTable();
         }
 
-        function editUser(id) {
-            const user = usersData.find(u => u.id === id);
-            if (user) {
+        function editUser(id, userName, email, loginUser, IsActive) {
+           debugger;
                 document.getElementById('modalTitle').textContent = 'Edit User';
-                document.getElementById('userId').value = user.id;
-                document.getElementById('userName').value = user.userName;
-                document.getElementById('email').value = user.email;
+                document.getElementById('userId').value = id;
+                document.getElementById('userName').value = userName;
+                document.getElementById('loginName').value = loginUser;
+                 document.getElementById('email').value = email;
                 document.getElementById('password').value = '';
-                document.getElementById('password').required = false;
-                document.getElementById('password').placeholder = 'Enter new password (leave empty to keep current)';
-                document.getElementById('isActive').checked = user.isActive;
+               // document.getElementById('password').required = false;
+                // document.getElementById('password').placeholder = 'Enter new password (leave empty to keep current)';
+                document.getElementById('isActive').checked =(IsActive === "True" || IsActive === "true");
                 $('#exampleModal').modal('show');
-            }
+            
         }
 
         function deleteUser(id) {
