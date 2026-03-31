@@ -256,6 +256,11 @@
 
         @RenderBody()
 
+        <!-- Toast Container - Top Right -->
+        <div class="position-fixed  end-0 p-3" style="z-index: 9999; top:68px;">
+            <div id="toastContainer"></div>
+        </div>
+
         <footer class="border-top footer text-muted">
             <div class="container">
                 &copy; 2026 - SmartInventoryMS - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
@@ -272,7 +277,7 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
-
+    <script src="~/js/toaster.js"></script>
     <script>
         function toggleSidebar() {
         const sidebar = document.getElementById('sidebar');

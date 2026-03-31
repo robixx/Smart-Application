@@ -17,6 +17,7 @@ builder.Services.AddSession(options =>
 });
 
 builder.Services.AddScoped<IMenu,MenuService>();
+builder.Services.AddScoped<IUser,UserService>();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>

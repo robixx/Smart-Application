@@ -1260,23 +1260,23 @@ body {
         text-align: left;
         font-weight: 600;
         color: var(--text-primary);
-        border-bottom: 2px solid var(--border-color);
+        border-bottom: 1px solid var(--border-color);
     }
 
     .custom-table td {
-        padding: 15px;
+        padding: 10px;
         border-bottom: 1px solid var(--border-color);
         color: var(--text-secondary);
         vertical-align: middle;
     }
 
     .custom-table tr:hover td {
-        background: #f8f9fa;
+        background: #def0bc;
     }
 
 .user-avatar {
-    width: 40px;
-    height: 40px;
+    width: 35px;
+    height: 35px;
     border-radius: 50%;
     background: linear-gradient(135deg, var(--primary), var(--primary-light));
     display: flex;
@@ -1510,3 +1510,8 @@ body {
     border-radius:0.6rem !important;
 }
 
+
+.form-check-input:checked {
+    background-color: var(--primary) !important;
+    border-color: var(--primary) !important;
+}

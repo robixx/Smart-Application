@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SmartInventory.Applycation.Interface;
+using SmartInventory.Applycation.ModelView;
 
 namespace SmartInventoryMS.Areas.Admin.Controllers
 {
@@ -6,12 +8,27 @@ namespace SmartInventoryMS.Areas.Admin.Controllers
     public class SettingsController : Controller
     {
 
-       
-        public IActionResult GetUserList()
+        private readonly IUser _user;
+
+        public SettingsController (IUser user)
         {
-            return View();
+            _user = user;
         }
 
+        public async Task<IActionResult> GetUserList()
+        {
+            var result = await _user.GetUserAsync();
+            return View(result.user_list);
+        }
+
+        [HttpPost]
+
+        public async Task<IActionResult> SaveUser([FromBody] UserDto userDto)
+        {
+            var result= await _user.UserSaveAsync(userDto);
+
+            return Ok(new { message = result.Message, status=result.Status });
+        }
 
         public IActionResult UserProfile()
         {
