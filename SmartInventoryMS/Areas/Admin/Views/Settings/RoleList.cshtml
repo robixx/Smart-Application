@@ -52,6 +52,65 @@
     font-weight: bold;
     color: red;
 }
+
+.action-menu {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.action-icon {
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 30%;
+    transition: 0.3s;
+}
+
+.action-icon:hover {
+    background: #f1f1f1;
+}
+
+/* Dropdown */
+.action-dropdown {
+    position: absolute;
+    top: 30px;
+    right: 0;
+    background: #fff;
+    border-radius: 10px;
+    min-width: 120px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    opacity: 0;
+    transform: translateY(10px);
+    pointer-events: none;
+    transition: all 0.25s ease;
+    z-index: 100;
+}
+
+/* Show on hover */
+.action-menu:hover .action-dropdown {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+/* Items */
+.action-item {
+    padding: 10px 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: 0.2s;
+    font-size: 14px;
+}
+
+.action-item:hover {
+    background: #f8f9fa;
+}
+
+.action-item.text-danger:hover {
+    background: #ffeaea;
+}
 </style>
 
 <div class="dashboard-content">
@@ -66,20 +125,46 @@
         </div>       
     </div> 
     <div class="stats-grid mt-4">
-        <!-- Super Admin -->
-        @foreach(var item in Model)
+       
+        @foreach (var item in Model)
         {
-             <div class="stat-card">
+            <div class="stat-card position-relative">
+
+                <!-- Top Right Menu -->
+                <div class="dropdown position-absolute top-0 end-0 m-2">
+                    <div class="action-menu">
+                        <i class="bi bi-three-dots-vertical action-icon"></i>
+
+                        <div class="action-dropdown">
+                            <div class="action-item"
+                                 onclick="openModal({ RoleId: @item.RoleId, RoleName: '@item.RoleName', IsActive: @item.IsActive })">
+                                <i class="bi bi-pencil-square"></i> Edit
+                            </div>
+
+                            <div class="action-item text-danger"
+                                 onclick="deleteRole(@item.RoleId)">
+                                <i class="bi bi-trash"></i> Delete
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card Content -->
                 <div class="d-flex align-items-center gap-2 mb-2">
                     <div class="role-icon">
                         <i class="bi bi-person-badge"></i>
                     </div>
-                    <div class="stat-title" onclick="assignUser('@item.RoleName', @item.RoleId)">@item.RoleName</div>
+
+                    <div class="stat-title"
+                         onclick="assignUser('@item.RoleName', @item.RoleId)">
+                        @item.RoleName
+                    </div>
                 </div>
+
                 <div class="stat-label mb-2">Person Name</div>
 
                 <div class="role-tags">
-                   @if (item.userlist != null && item.userlist.Any())
+                    @if (item.userlist != null && item.userlist.Any())
                     {
                         foreach (var usern in item.userlist)
                         {
@@ -89,6 +174,7 @@
                                    onclick="deleteBadge(@usern.UserId, @item.RoleId)">×</i>
                             </span>
                         }
+                        
                     }
                     else
                     {
@@ -121,29 +207,35 @@
     </div>
 </div>
 
+<script src="~/js/sweetalrt.js"></script>
 <script>
-       function openModal() {
+       function openModal(role = null) {
             const form = document.getElementById('userForm');
+            debugger;
             form.innerHTML = '';             
             const roleFields = document.createElement('div');
                 roleFields.id = 'roleFields';
                 roleFields.classList.add('modal-section');
+                  // If role object is passed → fill values (Edit)
+                const roleId = role ? role.RoleId : '';
+                const roleName = role ? role.RoleName : '';
+                const isActive = role ? role.IsActive === 1 : true;
                 roleFields.innerHTML = `
-                    <input type="hidden" id="roleId">
+                    <input type="hidden" id="roleId" value="${roleId}">
                     <div class="form-group mb-3">
                         <label class="form-label" for="userRole">Role Name</label>
-                        <input type="text" class="form-control" id="userRole" placeholder="Enter role name" required>
+                        <input type="text" class="form-control" id="userRole" placeholder="Enter role name" value="${roleName}" required>
                     </div>
                     <div class="form-group mb-3">
                         <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="isActive" checked>
+                            <input type="checkbox" class="form-check-input" id="isActive" ${isActive ? 'checked' : ''}>
                             <label class="form-check-label" for="isActive">Active</label>
                         </div>
                     </div>
                 `;
             form.appendChild(roleFields);
 
-            document.getElementById('modalTitle').innerText = "Add New Role";
+             document.getElementById('modalTitle').innerText = role ? "Edit Role" : "Add New Role";
 
             $('#exampleModal').modal('show'); 
         }
@@ -213,6 +305,7 @@
             .then(data => {
                 debugger;
                 if (data.status) {
+                     $('#exampleModal').modal('hide'); 
                     showToast(data.message, "success");                 
 
                     setTimeout(() => {
@@ -223,8 +316,35 @@
                 }
             })
             .catch(err => {
-               debugger;
+               
                 showToast('Unexpected error occurred.', "danger");
             });
         }
+
+        function deleteRole(id) {
+          
+             confirmAction('Are you want to Delete this Role?', 'This action cannot be undone!', function () {
+        
+                fetch(`/Admin/Settings/DeleteRole/${id}`, {
+                    method: 'POST'
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status) {
+                        showToast(data.message, "success");
+                       
+                        setTimeout(()=>{
+                            window.location.reload();
+                        },2000)                       
+                        
+
+                    } else {
+                        showToast(data.message, "danger");
+                    }
+                });
+
+            });
+        }
+       
+
 </script>

@@ -6,6 +6,7 @@ using SmartInventory.Infrastructure.DataConnect;
 using SmartInventory.Infrastructure.Utility;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -206,6 +207,37 @@ namespace SmartInventory.Infrastructure.Services
             catch (Exception ex)
             {
                 return ($"Service ->{nameof(UserService)}: Method ->:{nameof(RoleSaveAsync)}: Error -> : {ex.Message}", false);
+            }
+        }
+
+        public async Task<(string Message, bool Status)> DeleteRoleAsync(int Id)
+        {
+            try
+            {
+
+                var roleid = await _connection.UserWiseRolePermission.FindAsync(Id);
+
+
+                if (roleid == null)
+                {
+                  var rlist= await _connection.Role.FindAsync(Id);
+                    if (rlist == null)
+                    {
+                        return ("Role not found", false);
+                    }
+
+                    _connection.Role.Remove(rlist);
+                }
+
+               
+                await _connection.SaveChangesAsync();
+
+                return ("User Delete Successfully", true);
+
+            }
+            catch (Exception ex)
+            {
+                return ($"Service ->{nameof(UserService)}: Method ->:{nameof(DeleteRoleAsync)}: Error -> : {ex.Message}", false);
             }
         }
     }

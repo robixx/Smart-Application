@@ -63,5 +63,14 @@ namespace SmartInventoryMS.Areas.Admin.Controllers
             return View();
         }
 
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteRole(int id)
+        {
+            var result = await _user.DeleteRoleAsync(id);
+
+            return Ok(new { message = result.Message, status = result.Status });
+        }
+
     }
 }
