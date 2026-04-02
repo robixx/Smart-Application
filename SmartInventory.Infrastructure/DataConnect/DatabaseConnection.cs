@@ -18,6 +18,9 @@ namespace SmartInventory.Infrastructure.DataConnect
 
         public DbSet<Menu> Menu { get; set; }
         public DbSet<User> User { get; set; }
+        public DbSet<UserDetails> UserDetails { get; set; }
+        public DbSet<Role> Role { get; set; }
+        public DbSet<UserWiseRolePermission> UserWiseRolePermission { get; set; }
        
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -25,6 +28,9 @@ namespace SmartInventory.Infrastructure.DataConnect
 
             modelBuilder.Entity<Menu>().HasKey(i => i.MenuId);
             modelBuilder.Entity<User>().HasKey(i => i.UserId);          
+            modelBuilder.Entity<UserDetails>().HasKey(i => i.Id);          
+            modelBuilder.Entity<Role>().HasKey(i => i.Id);          
+            modelBuilder.Entity<UserWiseRolePermission>().HasKey(i => i.Id);          
            
             base.OnModelCreating(modelBuilder);
         }

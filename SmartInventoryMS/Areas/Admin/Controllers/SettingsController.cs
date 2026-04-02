@@ -30,15 +30,33 @@ namespace SmartInventoryMS.Areas.Admin.Controllers
             return Ok(new { message = result.Message, status=result.Status });
         }
 
+        [HttpPost]
+        public async Task<IActionResult> DeleteUser(int id)
+        {
+            var result = await _user.UserDeleteAsync(id);
+
+            return Ok(new { message = result.Message, status = result.Status });
+        }
         public IActionResult UserProfile()
         {
             return View();
         }
-        public IActionResult RoleList()
+
+
+        public async Task<IActionResult> RoleList()
         {
-            return View();
+
+            var result = await _user.GetRoleAsync();
+            return View(result.role_list);
         }
 
+
+        public async Task<IActionResult> SaveRole([FromBody] RoleDto roleDto)
+        {
+            var result = await _user.RoleSaveAsync(roleDto);
+
+            return Ok(new { message = result.Message, status = result.Status });
+        }
 
         public IActionResult Permission()
         {

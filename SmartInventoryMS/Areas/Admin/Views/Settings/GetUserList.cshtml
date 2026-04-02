@@ -133,8 +133,9 @@
 </div>
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/js/sweetalrt.js"></script>
 <script>
-    // User data storage
+    
         
 
         // Modal functions
@@ -161,20 +162,20 @@
             if (!userName || !email || !password) {
                 showToast("Please fill in all required fields", "warning");
                 closeModal();
-                //refreshTable();
+               
                 return;
             }
-            // Prepare DTO object
+           
                 const userDto = {
                     UserId: parseInt(userId) || 0,
                     UserName: userName,
                     LoginUserName: loginName,
-                    PasswordHash: password, // hash it on server
+                    PasswordHash: password, 
                     Email: email,
                     IsActive: isActive
                 };
              
-                // Send to backend using fetch
+                
                 fetch('/Admin/Settings/SaveUser', {
                     method: 'POST',
                     headers: {
@@ -191,7 +192,7 @@
                         setTimeout(()=>{
                             window.location.reload();
                         },2000)
-                        //refreshTable();
+                        
                     } else {
                         showToast(data.message,"danger");
                     }
@@ -204,7 +205,7 @@
            
 
             closeModal();
-            //refreshTable();
+            
         }
 
         function editUser(id, userName, email, loginUser, IsActive) {
@@ -223,10 +224,27 @@
         }
 
         function deleteUser(id) {
-            if (confirm('Are you sure you want to delete this user?')) {
-                usersData = usersData.filter(u => u.id !== id);
-                refreshTable();
-            }
+            confirmAction('Are you want to Delete User?', 'This action cannot be undone!', function () {
+        
+                fetch(`/Admin/Settings/DeleteUser/${id}`, {
+                    method: 'POST'
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status) {
+                        showToast(data.message, "success");
+                        closeModal();
+                        setTimeout(()=>{
+                            window.location.reload();
+                        },2000)                       
+                        
+
+                    } else {
+                        showToast(data.message, "danger");
+                    }
+                });
+
+            });
         }
 
         function getInitials(name) {

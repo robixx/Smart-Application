@@ -11,5 +11,8 @@ namespace SmartInventory.Applycation.Interface
     {
         Task<(string Message, bool Status, List<UserDto> user_list)> GetUserAsync();
         Task<(string Message, bool Status)> UserSaveAsync(UserDto userDto);
+        Task<(string Message, bool Status)> UserDeleteAsync(int Id);
+        Task<(string Message, bool Status, List<RoleDto> role_list)> GetRoleAsync();
+        Task<(string Message, bool Status)> RoleSaveAsync(RoleDto roleDto);
     }
 }

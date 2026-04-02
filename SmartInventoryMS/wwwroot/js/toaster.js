@@ -39,3 +39,5 @@ function showToast(message, type = "success", delay = 3000) {
 
     toastEl.addEventListener('hidden.bs.toast', () => toastEl.remove());
 }
+
+

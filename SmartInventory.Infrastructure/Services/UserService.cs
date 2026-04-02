@@ -21,6 +21,9 @@ namespace SmartInventory.Infrastructure.Services
         {
             _connection = connection;
         }
+
+       
+
         public async Task<(string Message, bool Status, List<UserDto> user_list)> GetUserAsync()
         {
             try
@@ -37,12 +40,36 @@ namespace SmartInventory.Infrastructure.Services
                     Email = e.Email
                 }).ToList();
 
-                return ("User loaded successfully", true, userDto);
+                return ("User loaded Successfully", true, userDto);
 
             }
             catch(Exception ex)
             {
                 return ($"Service ->{nameof(UserService)}: Method ->:{nameof(GetUserAsync)}: Error -> : {ex.Message}", false, new List<UserDto>());
+            }
+        }
+
+        public async Task<(string Message, bool Status)> UserDeleteAsync(int Id)
+        {
+            try
+            {
+
+                var user = await _connection.User.FindAsync(Id);
+
+                if (user == null)
+                {
+                    return ("User not found", false);
+                }
+
+                _connection.User.Remove(user);
+                await _connection.SaveChangesAsync();
+
+                return ("User Delete Successfully", true);
+
+            }
+            catch (Exception ex)
+            {
+                return ($"Service ->{nameof(UserService)}: Method ->:{nameof(UserDeleteAsync)}: Error -> : {ex.Message}", false);
             }
         }
 
@@ -92,6 +119,93 @@ namespace SmartInventory.Infrastructure.Services
             catch (Exception ex)
             {
                 return ($"Service ->{nameof(UserService)}: Method ->:{nameof(UserSaveAsync)}: Error -> : {ex.Message}", false);
+            }
+        }
+
+        public async Task<(string Message, bool Status, List<RoleDto> role_list)> GetRoleAsync()
+        {
+            try
+            {
+
+                var roles = await _connection.Role.ToListAsync();
+
+                var userRoles = await (
+                    from ur in _connection.UserWiseRolePermission
+                    join u in _connection.User on ur.UserId equals u.UserId
+                    select new
+                    {
+                        ur.RoleId,
+                        u.UserId,
+                        u.UserName
+                    }
+                ).ToListAsync();
+
+                var result = roles.Select(r => new RoleDto
+                {
+                    RoleId = r.Id,
+                    RoleName = r.RoleName,
+                    IsActive = r.IsActive,
+                    userlist = userRoles
+                        .Where(x => x.RoleId == r.Id)
+                        .Select(x => new UserAssignRoleDto
+                        {
+                            UserId = x.UserId,
+                            UserName = x.UserName
+                        }).ToList()
+                }).ToList();
+
+
+
+                return ("Role loaded Successfully", true, result);
+
+            }
+            catch (Exception ex)
+            {
+                return ($"Service ->{nameof(UserService)}: Method ->:{nameof(GetRoleAsync)}: Error -> : {ex.Message}", false, new List<RoleDto>());
+            }
+        }
+
+        public async Task<(string Message, bool Status)> RoleSaveAsync(RoleDto roleDto)
+        {
+            try
+            {
+                if (roleDto == null)
+                    return ("Invalid Role data", false);
+
+
+                if (roleDto.RoleId == 0)
+                {
+
+                    var newRole = new Role
+                    {
+                        Id = roleDto.RoleId,
+                        RoleName = roleDto.RoleName??"",                       
+                        IsActive = roleDto.IsActive,
+                        CreatedDate = DateTime.Now
+                    };
+
+                    await _connection.Role.AddRangeAsync(newRole);
+                }
+                else
+                {
+
+                    var existingRole = await _connection.Role.FindAsync(roleDto.RoleId);
+                    if (existingRole == null)
+                        return ("User not found", false);
+
+                    existingRole.RoleName = roleDto.RoleName??"";                 
+                   
+                    existingRole.IsActive = roleDto.IsActive;
+                }
+
+                await _connection.SaveChangesAsync();
+
+                return ($"{roleDto.RoleName} save successfully", true);
+
+            }
+            catch (Exception ex)
+            {
+                return ($"Service ->{nameof(UserService)}: Method ->:{nameof(RoleSaveAsync)}: Error -> : {ex.Message}", false);
             }
         }
     }
